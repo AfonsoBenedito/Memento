@@ -1,0 +1,372 @@
+<DOCTYPE html>
+
+    <head>
+
+        <meta charset="utf-8" />
+
+
+        <link href="assets/img/logo.png" rel="shortcut icon">
+
+        <link rel="stylesheet" type="text/css" href="assets/css/SiteBase.css">
+
+        <link rel="stylesheet" type="text/css" href="assets/css/Lixo.css">
+
+        <link rel="stylesheet" type="text/css" href="assets/fonts/Fontes.css">
+
+        <script type="text/javascript" src="assets/js/SiteBase.js"></script>
+
+        <script type="text/javascript" src="assets/js/Lixo.js"></script>
+
+        <title>Memento - Lixo</title>
+
+    </head>
+
+    <body>
+
+        <div class="colunaOpcoes">
+
+            <div class="openClose"> Perfil
+                <img class="#" id="CloseImg" src="assets/img/close.png">
+            </div>
+
+            <img class="imagemUtilizador" src="assets/img/Cabeça Castanha.png">
+
+            <div class="nomeUtilizador">Nome do Utilizador</div>
+
+            <div class="separadorHorizontal"></div>
+
+            <div class="zonaBtns">
+
+                <a href="Albuns.html"><button class="btn">Álbuns</button></a>
+
+                <a href="Fotografias.html"><button class="btn">Fotografias</button></a>
+
+                <a href="Lixo.html"><button class="btn atual">Lixo</button></a>
+
+                <a href="Definicoes.html"><button class="btn">Definições</button></a>
+
+            </div>
+
+            <a href="index.html"><button class="btnLogout">Logout</button></a>
+
+        </div>
+
+        <!---------------------------->
+
+        <div class="colunaOpcoesReduzida">
+
+            <img class="open" id="OpenImg" src="assets/img/open.png">
+
+            <img class="imagemUtilizador" src="assets/img/Cabeça Castanha.png">
+
+            <div class="nomeUtilizador">Nome do Utilizador</div>
+
+
+            <div class="zonaBtnsMini">
+                <li><a href="Albuns.html">
+                        <img src="assets/img/albunsIcon.png">
+                        <div class="nomeBtn">Álbuns</div>
+                    </a></li>
+                <li><a href="Fotografias.html">
+                        <img src="assets/img/fotosIcon.png">
+                        <div class="nomeBtn">Fotografias</div>
+                    </a></li>
+                <li class="pagMomentoAtual"><a href="Lixo.html">
+                        <img class="momento" src="assets/img/lixoIcon.png">
+                        <div class="nomeBtn momento">Lixo</div>
+                    </a></li>
+                <li><a href="Definicoes.html">
+                        <img src="assets/img/definicoesIcon.png">
+                        <div class="nomeBtn">Definições</div>
+                    </a></li>
+
+                <li class="off"><a href="index.html">
+                        <img src="assets/img/offIcon.png">
+                        <div class="nomeBtn">Sair</div>
+                    </a></li>
+            </div>
+
+        </div>
+
+        <!-------------------------------------------------------------->
+        <!-------------------------------------------------------------->
+
+        <div class="barraSuperiar">
+
+            <img class="icone" src="assets/img/logo.png">
+
+            <div class="paginaMomento">Memento</div>
+
+            <div class="separador"></div>
+
+            <div class="paginaAtual">Lixo</div>
+
+            <div class='barraPesquisa'>
+
+                <input class="zonaPesquisa" type="text" placeholder="  Pesquise">
+
+                <div class="zonaPesquisaLupa">
+                    <img src="assets/img/lupa.png">
+                </div>
+            </div>
+            <!--<input class='barraPesquisa' type="text" placeholder="Pesquise">-->
+
+            <button class="btnUpload">Importar Fotos</button>
+
+            <img class="btnSininho" src="assets/img/Sino.png">
+            <!-- <button class="btnSininho">S</button> -->
+
+        </div>
+
+        <!-------------------------------------------------------------->
+        <!-------------------------------------------------------------->
+
+        <div class="planoAcao">
+
+            <div class="topoPagina">
+
+                <img class="fundoTopo" src="assets/img/fundoTopo1.jpg">
+
+                <div class="esq">
+
+                    <div class="tituloMomento">Lixo</div>
+
+                    <div class="subTituloMomento"><b id='numFotografias'>X</b> itens apagados</div>
+
+                    <!--<div class="ordenarPorAlbuns">
+
+                        <label for="#">Organizar Por &nbsp;</label>
+                        <select name="#" id="#">
+                            <option value="Data">Data</option>
+                            <option value="Nome">Nome</option>
+                        </select>
+    
+                    </div>-->
+
+                </div>
+
+                <div class="dir">
+
+                    <a href="maisVista.html">
+                        <div class="maisVisto">
+                            <img src="assets/img/maisVisto.png">
+                            <div class="textoBtns">Mais Vistas</div>
+                        </div>
+                    </a>
+                    <a href="maisVista.html">
+                        <div class="curtidas">
+                            <img src="assets/img/curtidas.png">
+                            <div class="textoBtns">Curtidas</div>
+                    </a>
+                </div>
+                <a href="Albuns.html">
+                    <div class="criarNovoAlbum">
+                        <img src="assets/img/irPAlbuns.png">
+                        <div class="textoBtns">Ir para Álbuns</div>
+                    </div>
+                </a>
+                <div class="apagarAlbuns" id="apagarFotos">
+                    <img src="assets/img/selecionarIcon.png">
+                    <div class="textoBtns">Selecionar</div>
+                </div>
+
+            </div>
+
+
+            <div class="separadorTopoPag"></div>
+
+        </div>
+
+        <!-------------------------->
+
+        <div class='FundoUpload'>
+            <img src="assets/img/fecharPopUp.png">
+        </div>
+
+        <div class='Upload'>
+            <div class="titleImport">Selecione a forma como deseja importar as fotografias</div>
+            <div class="separadorUpload"></div>
+            <div class="zonaIconsImport">
+                <li class="liUpload">0
+                    <img class="local" src="assets/img/computadorIcon.png">
+                    <div>Computador</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">1
+                    <img class="local" src="assets/img/whatsappIcon.png">
+                    <div>Whatsapp</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">2
+                    <img class="local" src="assets/img/emailIcon.png">
+                    <div>E-mail</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">3
+                    <img class="local" src="assets/img/InstagramIcon.png">
+                    <div>Instagram</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">4
+                    <img class="local" src="assets/img/twitterIcon.png">
+                    <div>Twitter</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">5
+                    <img class="local" src="assets/img/facebookIcon.png">
+                    <div>Facebook</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+            </div>
+            <div class="previewImportFotosGeral">
+                <div class="previewImportFotos">
+
+                </div>
+            </div>
+
+            <div class="importErrado">É necessário selecionar uma fonte de importação <br>
+                (ex: Computador, Whatsapp, E-mail, etc...)</div>
+
+            <div class="importErrado2">Nenhuma fotografia Selecionada</div>
+
+            <button class="importImagens">Importar Fotografias</button>
+            <button class="selecionarTodas">Selecionar Todas</button>
+            <button class="desmarcarTodas">Desmarcar Todas</button>
+        </div>
+
+        <div class="popUpSelecionarFundo" id="popUpSelecionarFundo">
+            <img src="assets/img/fecharPopUp.png">
+        </div>
+
+        <div class="popUpSelecionar" id="popUpSelecionar">
+
+            <div class="titlePopUpSelecionar">Selecione as fotografias que pretende Restaurar/Esvaziar </div>
+
+            <div class="contemZonaSelecao">
+
+                <div class="zonaSelecao">
+
+                </div>
+
+            </div>
+
+            <div class="zonaBtnsSelecionar">
+                <div class="btnPartilharSelecao">
+                    <img src="assets/img/restaurarIcon.png">
+                    <div class="textoBtns">Restaurar</div>
+                </div>
+                <div class="btnLixoSelecao">
+                    <img src="assets/img/lixoIcon.png">
+                    <div class="textoBtns">Esvaziar</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-------------------------->
+
+        <div class="posicaoFotosLixoGeral">
+
+            <div class="posicaoFotosLixo">
+
+            </div>
+            <div class="posicaoLixo">
+
+            </div>
+
+        </div>
+
+        <div class="fotoAbertaFundoClick">
+            <img src="assets/img/fecharPopUp.png">
+        </div>
+
+        <div class="fotoAberta">
+
+            <a class="btnDir"><img src="assets/img/setaDir.png"></a>
+            <a class="btnEsq"><img src="assets/img/setaEsq.png"></a>
+
+            <div class="zonaFotoAberta"><img id="fotografiaAberta" src=""></div>
+            <div class="zonaPreviewFotos">
+                <li id="partilharIcon">
+                    <a><img src="assets/img/partilhaIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Partilha</div>
+                </li>
+                <li id="editarIcon">
+                    <a><img src="assets/img/editarIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Editar</div>
+                </li>
+                <li id="curtidasIcon">
+                    <a><img src="assets/img/curtidas.png"></a>
+                    <div class="fotoAbertaOpcoes">Favoritos</div>
+                </li>
+                <li id="lixoIcon">
+                    <a><img src="assets/img/lixoIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Lixo</div>
+                </li>
+                <li id="detalhesIcon">
+                    <a><img src="assets/img/detalhesIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Detalhes</div>
+                </li>
+            </div>
+
+            <div class="partilhaPopUp">
+                <li>
+                    <a><img src="assets/img/whatsappIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Whatsapp</div>
+                </li>
+                <li>
+                    <a><img src="assets/img/facebookIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Facebook</div>
+                </li>
+                <li>
+                    <a><img src="assets/img/InstagramIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Instagram</div>
+                </li>
+                <li>
+                    <a><img src="assets/img/twitterIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">Twitter</div>
+                </li>
+                <li>
+                    <a><img src="assets/img/emailIcon.png"></a>
+                    <div class="fotoAbertaOpcoes">E-mail</div>
+                </li>
+            </div>
+
+        </div>
+
+
+        <div class="popUpItensFundo">
+            <img src="assets/img/fecharPopUp.png">
+        </div>
+
+        <div class="popUpItens">
+
+            <div class="titlePopUpItens">Selecione os itens que pretende Restaurar/Eliminar </div>
+
+            <div class="contemItensPara">
+
+                <div class="zonaItensPara">
+
+                </div>
+
+            </div>
+
+            <div class="zonaBtnsItens">
+                <div class="btnRestaurarItens">
+                    <img src="assets/img/partilhaIcon.png">
+                    <div class="textoBtns">Restaurar</div>
+                </div>
+                <div class="btnLixoItens">
+                    <img src="assets/img/lixoIcon.png">
+                    <div class="textoBtns">Eliminar</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!------------------------------------------->
+        <!------------------------------------------->
+
+        </div>
+
+    </body>
