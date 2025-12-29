@@ -131,15 +131,13 @@
 
                 <div class="btnExtraTopPag">
 
-                    <div class="btnPopUpMudarNome">
-                        <div>Mudar Nome do Álbum</div>
+                    <div class="reloadAlbum">
+                        <img src="assets/img/setaEsq.png">
+                        <div>Voltar para Álbuns</div>
                     </div>
 
-                    <div class="reloadAlbum">
-
-                        <img src="assets/img/setaEsq.png">
-                        <div>Voltar para Albúns</div>
-
+                    <div class="btnPopUpMudarNome">
+                        <div>Mudar Nome do Álbum</div>
                     </div>
 
                     <div class="ordenarPorFotoAlbum">
@@ -155,8 +153,8 @@
 
                 <div class="tituloMomento">Álbuns</div>
 
-                <div class="subTituloMomento"><b id="numAlbuns">0</b> álbuns criados &nbsp;
-                    • &nbsp; <b id='numFotografias'>0</b> fotografias importadas</div>
+                <div class="subTituloMomento"><b id="numAlbuns">0</b>&nbsp;álbuns&nbsp;<span class="palavraDestaque">criados</span> &nbsp;
+                    • &nbsp; <b id='numFotografias'>0</b>&nbsp;fotografias&nbsp;<span class="palavraDestaque">importadas</span></div>
 
                 <!--<div class="ordenarPorAlbuns">
 
@@ -189,11 +187,11 @@
                 <div class="textoBtns">Criar Álbum</div>
             </div>
 
-            <div class="apagarAlbuns" id="apagarFotos">
+            <div class="apagarAlbuns" id="apagarAlbuns">
                 <img src="assets/img/selecionarIcon.png">
                 <div class="textoBtns">Selecionar Albuns</div>
             </div>
-            <div class="apagarFotos" id="apagarFotos">
+            <div class="apagarFotos" id="apagarFotos" style="visibility: hidden; display: none;">
                 <img src="assets/img/selecionarIcon.png">
                 <div class="textoBtns">Selecionar Fotos</div>
             </div>
@@ -208,44 +206,44 @@
     <!-------------------------->
 
     <div class='FundoUpload'>
-        <img src="assets/img/fecharPopUp.png">
     </div>
 
     <div class='Upload'>
+        <img class="fecharUpload" src="assets/img/fecharPopUp.png">
         <div class="titleImport">Selecione a forma como deseja importar as fotografias</div>
         <div class="separadorUpload"></div>
-        <div class="zonaIconsImport">
-            <li class="liUpload">0
-                <img class="local" src="assets/img/computadorIcon.png">
-                <div>Computador</div>
-                <img class="importCheck" src="assets/img/importcheck.png">
-            </li>
-            <li class="liUpload">1
-                <img class="local" src="assets/img/whatsappIcon.png">
-                <div>Whatsapp</div>
-                <img class="importCheck" src="assets/img/importcheck.png">
-            </li>
-            <li class="liUpload">2
-                <img class="local" src="assets/img/emailIcon.png">
-                <div>E-mail</div>
-                <img class="importCheck" src="assets/img/importcheck.png">
-            </li>
-            <li class="liUpload">3
-                <img class="local" src="assets/img/InstagramIcon.png">
-                <div>Instagram</div>
-                <img class="importCheck" src="assets/img/importcheck.png">
-            </li>
-            <li class="liUpload">4
-                <img class="local" src="assets/img/twitterIcon.png">
-                <div>Twitter</div>
-                <img class="importCheck" src="assets/img/importcheck.png">
-            </li>
-            <li class="liUpload">5
-                <img class="local" src="assets/img/facebookIcon.png">
-                <div>Facebook</div>
-                <img class="importCheck" src="assets/img/importcheck.png">
-            </li>
-        </div>
+            <div class="zonaIconsImport">
+                <li class="liUpload">
+                    <img class="local" src="assets/img/computadorIcon.png">
+                    <div>Computador</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">
+                    <img class="local" src="assets/img/whatsappIcon.png">
+                    <div>Whatsapp</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">
+                    <img class="local" src="assets/img/emailIcon.png">
+                    <div>E-mail</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">
+                    <img class="local" src="assets/img/InstagramIcon.png">
+                    <div>Instagram</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">
+                    <img class="local" src="assets/img/twitterIcon.png">
+                    <div>Twitter</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">
+                    <img class="local" src="assets/img/facebookIcon.png">
+                    <div>Facebook</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+            </div>
         <div class="previewImportFotosGeral">
             <div class="previewImportFotos">
             </div>
@@ -265,10 +263,10 @@
     <!-------------------------------------------------------------------->
 
     <div class="popUpSelecionarFundo" id="popUpSelecionarFundo">
-        <img src="assets/img/fecharPopUp.png">
     </div>
 
     <div class="popUpSelecionar" id="popUpSelecionar">
+        <img class="fecharPopUpSelecionar" src="assets/img/fecharPopUp.png" alt="Fechar pop-up">
 
         <div class="titlePopUpSelecionar">Selecione os álbuns que pretende Partilhar/Eliminar </div>
 
@@ -296,10 +294,10 @@
     <!-------------------------------------------------------------------->
 
     <div class="popUpSelecionarFotosFundo" id="popUpSelecionarFundo">
-        <img src="assets/img/fecharPopUp.png">
     </div>
 
     <div class="popUpSelecionarFotos" id="popUpSelecionar">
+        <img class="fecharPopUpSelecionar" src="assets/img/fecharPopUp.png" alt="Fechar pop-up">
 
         <div class="titlePopUpSelecionarFotos">Selecione as Fotografias que pretende Partilhar/Eliminar </div>
 
@@ -333,12 +331,14 @@
     <div></div>
 
     <div class="popUpMudarNomeFundo">
-        <img src="assets/img/fecharPopUp.png">
     </div>
     <div class="popUpMudarNome">
-        <div class="titleMudarNome">Altere o nome do Álbum</div>
-        <input type='text' placeholder="Novo nome para o Álbum" id='inputMudarNome' maxlenght="20">
-        <div class="finalizarMudarNome">Mudar Nome</div>
+        <img class="fecharPopUpMudarNome" src="assets/img/fecharPopUp.png">
+        <div class="titleMudarNome">Alterar Nome do Álbum</div>
+        <div class="zonaInputMudarNome">
+            <input type='text' placeholder="Digite o novo nome..." id='inputMudarNome' maxlength="20">
+        </div>
+        <div class="finalizarMudarNome">Confirmar Alteração</div>
     </div>
 
     <div class="posicaoFotosAlbunsAbertosGeral">
@@ -443,9 +443,7 @@
                 <button type="button" id="btnCriarPasta"> Criar Álbum</button>
             </div>-->
 
-    <div class="fundoCriarAlbum">
-        <img src="assets/img/fecharPopUp.png">
-    </div>
+    <div class="fundoCriarAlbum"></div>
 
     <!------------- 1ª Divisão -------------->
 
@@ -454,6 +452,8 @@
     </div>
 
     <div class="menuCriarAlbum">
+
+        <img class="fecharCriarAlbum" src="assets/img/fecharPopUp.png" alt="Fechar">
 
         <div class="zonaSelecaoFotosFundo1"></div>
 
@@ -475,35 +475,29 @@
 
                     <form>
 
+                        <div class="checkbox-container">
+                            <label class="checkboxAlbum">Data
+                                <input type="checkbox" id="checkData">
+                                <span class="checkmark"></span>
+                            </label>
+                            <select id="inputData" name="fname"></select>
+                        </div>
 
-                        <!--<input class="inputData" type="text" name="fname" placeholder="xx/xx/xxxx" id="inputData">-->
-                        <select id="inputData" name="fname">
-                        </select>
+                        <div class="checkbox-container">
+                            <label class="checkboxAlbum">Localidade
+                                <input type="checkbox" id="checkLocal">
+                                <span class="checkmark"></span>
+                            </label>
+                            <select id="inputLocal" name="fname"></select>
+                        </div>
 
-                        <!--<input class="inputLocal" type="text" name="fname" placeholder="ex: Lisboa" id="inputLocal">-->
-                        <select id="inputLocal" name="fname">
-                        </select>
-
-                        <!--<input class="inputPessoa" type="text" name="fname" placeholder="ex: Migalhas" id="inputPessoa">-->
-                        <select id="inputPessoa" name="fname">
-                        </select>
-
-                        <br>
-
-                        <label class="checkboxAlbum">Data
-                            <input type="checkbox" id="checkData">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkboxAlbum">Localidade
-                            <input type="checkbox" id="checkLocal">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkboxAlbum">Pessoas
-                            <input type="checkbox" id="checkPessoa">
-                            <span class="checkmark"></span>
-                        </label>
+                        <div class="checkbox-container">
+                            <label class="checkboxAlbum">Pessoas
+                                <input type="checkbox" id="checkPessoa">
+                                <span class="checkmark"></span>
+                            </label>
+                            <select id="inputPessoa" name="fname"></select>
+                        </div>
 
                     </form>
 
@@ -521,18 +515,23 @@
 
                 <div class="zonaEscolha">
 
-                    <div class="capaAlbum">
-                        <div class="zonaCapaAlbum"><img id="imgCapaEscolhida" src="assets/img/capaAlbumDef.png">
+                    <div class="blocoCapa">
+                        <div class="capaAlbum">
+                            <div class="zonaCapaAlbum"><img id="imgCapaEscolhida" src="assets/img/capaAlbumDef.png">
+                            </div>
+                        </div>
+
+                        <button id="btnEscolherFoto" class="escolherFoto">Alterar Fotografia</button>
+                    </div>
+
+                    <div class="infoInputs">
+                        <div class="nomeAlbum"><input id="inputNome" type="text" placeholder="Nome" maxlength="20">
+                        </div>
+
+                        <div class="descricaoAlbum">
+                            <textarea id="inputDescricao" placeholder="Descrição" maxlength="33"></textarea>
                         </div>
                     </div>
-
-                    <button id="btnEscolherFoto" class="escolherFoto">Alterar Fotografia</button>
-
-                    <div class="nomeAlbum"><input id="inputNome" type="text" placeholder="Nome" maxlength="20">
-                    </div>
-
-                    <div class="descricaoAlbum"><input id="inputDescricao" type="textarea" placeholder="Descrição"
-                            maxlength="33"></div>
 
                 </div>
 
@@ -565,14 +564,14 @@
 
         <!------------- 2º Botões -------------->
 
-        <button id="bt2" class="btnAnterior">Anterior</button>
+        <button class="btnAnterior btn-page2">Anterior</button>
 
         <div class="barraProgresso">
             <div class="progEsq"></div>
             <div class="progDir"></div>
         </div>
 
-        <button type="submit" id="bt2" class="btnProximo">Concluir</button>
+        <button type="submit" class="btnProximo btn-page2">Concluir</button>
 
     </div>
 

@@ -21,7 +21,7 @@
 
     </head>
 
-    <body>
+    <body class="pagina-lixo">
 
         <div class="colunaOpcoes">
 
@@ -131,7 +131,7 @@
 
                     <div class="tituloMomento">Lixo</div>
 
-                    <div class="subTituloMomento"><b id='numFotografias'>X</b> itens apagados</div>
+                    <div class="subTituloMomento"><b id='numFotografias'>X</b>&nbsp;itens&nbsp;<span class="palavraDestaque">apagados</span></div>
 
                     <!--<div class="ordenarPorAlbuns">
 
@@ -180,10 +180,10 @@
         <!-------------------------->
 
         <div class='FundoUpload'>
-            <img src="assets/img/fecharPopUp.png">
         </div>
 
         <div class='Upload'>
+            <img class="fecharUpload" src="assets/img/fecharPopUp.png">
             <div class="titleImport">Selecione a forma como deseja importar as fotografias</div>
             <div class="separadorUpload"></div>
             <div class="zonaIconsImport">
@@ -234,13 +234,12 @@
             <button class="desmarcarTodas">Desmarcar Todas</button>
         </div>
 
-        <div class="popUpSelecionarFundo" id="popUpSelecionarFundo">
-            <img src="assets/img/fecharPopUp.png">
-        </div>
+        <div class="popUpSelecionarFundo" id="popUpSelecionarFundo"></div>
 
         <div class="popUpSelecionar" id="popUpSelecionar">
+            <img class="fecharPopUpSelecionar" src="assets/img/fecharPopUp.png" alt="Fechar pop-up">
 
-            <div class="titlePopUpSelecionar">Selecione as fotografias que pretende Restaurar/Esvaziar </div>
+            <div class="titlePopUpSelecionar">Selecione os itens que pretende Restaurar/Esvaziar </div>
 
             <div class="contemZonaSelecao">
 
@@ -331,41 +330,6 @@
                     <div class="fotoAbertaOpcoes">E-mail</div>
                 </li>
             </div>
-
-        </div>
-
-
-        <div class="popUpItensFundo">
-            <img src="assets/img/fecharPopUp.png">
-        </div>
-
-        <div class="popUpItens">
-
-            <div class="titlePopUpItens">Selecione os itens que pretende Restaurar/Eliminar </div>
-
-            <div class="contemItensPara">
-
-                <div class="zonaItensPara">
-
-                </div>
-
-            </div>
-
-            <div class="zonaBtnsItens">
-                <div class="btnRestaurarItens">
-                    <img src="assets/img/partilhaIcon.png">
-                    <div class="textoBtns">Restaurar</div>
-                </div>
-                <div class="btnLixoItens">
-                    <img src="assets/img/lixoIcon.png">
-                    <div class="textoBtns">Eliminar</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!------------------------------------------->
-        <!------------------------------------------->
 
         </div>
 

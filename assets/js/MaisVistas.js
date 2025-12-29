@@ -3,7 +3,21 @@
 topVisualizadas = []
 
 function onload(){
-    currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
+    // Carregar utilizador atual de forma segura (evita que a página "morra" e não ligue clicks)
+    const currentKey = sessionStorage.CurrentUser
+    if (!currentKey) {
+        console.warn('MaisVistas: sem sessionStorage.CurrentUser; a página pode não ter sessão iniciada.')
+        return
+    }
+
+    currentUser = JSON.parse(localStorage.getItem(currentKey))
+    if (!currentUser) {
+        console.warn('MaisVistas: currentUser inválido no localStorage.')
+        return
+    }
+
+    // Garantir estruturas mínimas
+    currentUser.curtidas = currentUser.curtidas || []
     
     
 
@@ -103,9 +117,15 @@ function criarTop(lista){
 
 function mostrarTop(){
     tops = criarTop(criarListaVisualizacoes())
+    const colecao = document.getElementsByClassName('colecao')[0]
+    if (!colecao) return
 
-    for (i = 0; i < 10; i++){
-        document.getElementsByClassName('colecao')[0].childNodes[1 + (2*i)].childNodes[3].firstChild.firstChild.src = tops[i][0]
+    const slots = colecao.querySelectorAll('.imgMV')
+    const max = Math.min(10, slots.length, tops.length)
+
+    for (let i = 0; i < max; i++){
+        const img = slots[i].querySelector('img')
+        if (img && tops[i] && tops[i][0]) img.src = tops[i][0]
     }
 
     sessionStorage.setItem('top10', JSON.stringify(tops))
@@ -113,7 +133,10 @@ function mostrarTop(){
 }
 
 function aparecerCurtidas(){
-    currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
+    const currentKey = sessionStorage.CurrentUser
+    currentUser = JSON.parse(localStorage.getItem(currentKey))
+    if (!currentUser) return
+    currentUser.curtidas = currentUser.curtidas || []
 
     // fotosEventHandler
     //console.log(currentUser.curtidas.length)

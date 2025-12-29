@@ -1,5 +1,5 @@
 
-listaSelecionadasLixo = []
+let listaSelecionadasLixo = []
 
 function mostrarLixo(){
     
@@ -57,10 +57,11 @@ function mostrarLixo(){
 function apagarPermanente(){
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-    for (i = 0; i < listaSelecionadasLixo.length; i++){
-        if (currentUser.lixo[i].source){
-            currentUser.fotografiasImportar = currentUser.fotografiasImportar.concat(currentUser.lixo[parseInt(listaSelecionadasLixo[i])])
-        } 
+    for (let i = 0; i < listaSelecionadasLixo.length; i++){
+        const idx = parseInt(listaSelecionadasLixo[i])
+        if (currentUser.lixo[idx] && currentUser.lixo[idx].source){
+            currentUser.fotografiasImportar = currentUser.fotografiasImportar.concat(currentUser.lixo[idx])
+        }
     }
 
     listaSelecionadasLixo.sort(function(a,b){
@@ -70,8 +71,6 @@ function apagarPermanente(){
             return 1
         }
     })
-
-    console.log(listaSelecionadasLixo)
 
     for (i = 0; i < listaSelecionadasLixo.length; i++){
         currentUser.lixo.splice(parseInt(listaSelecionadasLixo[i]),1)
@@ -115,93 +114,90 @@ function restaurar(){
 function aparecerLixoSelecionar(){
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-    document.getElementsByClassName('popUpItensFundo')[0].style.visibility = 'visible'
-    document.getElementsByClassName('popUpItens')[0].style.visibility = 'visible'
+    const popUp = document.getElementById('popUpSelecionar')
+    const fundo = document.getElementById('popUpSelecionarFundo')
+    const zona = document.getElementsByClassName('zonaSelecao')[0]
 
-    document.getElementsByClassName('popUpItensFundo')[0].addEventListener('click', desaparecerLixoSelecionar)
+    if (!popUp || !fundo || !zona) return
 
-    document.getElementsByClassName('btnLixoItens')[0].addEventListener('click',apagarPermanente)
-    document.getElementsByClassName('btnRestaurarItens')[0].addEventListener('click',restaurar)
+    // Mostrar (mesmo comportamento/visual do popup padrão)
+    popUp.style.display = 'flex'
+    fundo.style.display = 'block'
+    popUp.style.visibility = 'visible'
+    fundo.style.visibility = 'visible'
 
-    //<li><div class="imagemItens"><img src="#"></div></li>
-    for (i = 0; i < currentUser.lixo.length; i++){
-        novoLi = document.createElement('li')
-        novoDivPrim = document.createElement('div')
-        novoDivSeg = document.createElement('div')
-        novoImg = document.createElement('img')
+    // Listeners (sem duplicar)
+    document.getElementsByClassName('btnLixoSelecao')[0].onclick = apagarPermanente
+    document.getElementsByClassName('btnPartilharSelecao')[0].onclick = restaurar
+    fundo.onclick = fecharLixoSelecionar
+    const fecharBtn = popUp.querySelector('.fecharPopUpSelecionar')
+    if (fecharBtn) fecharBtn.onclick = fecharLixoSelecionar
 
-        novoLi.innerText = i
-        //console.log(currentUser.lixo[i])
+    // Reconstruir lista sempre que abre
+    while (zona.firstChild) zona.removeChild(zona.lastChild)
+    listaSelecionadasLixo = []
 
-        if (currentUser.lixo[i].source){
-            novoImg.src = currentUser.lixo[i].source
-            novoDivPrim.setAttribute('class', 'imagemItens')
+    for (let i = 0; i < currentUser.lixo.length; i++){
+        const item = currentUser.lixo[i]
+        const li = document.createElement('li')
+        li.dataset.index = String(i)
 
-            novoDivPrim.appendChild(novoImg)
-            novoLi.appendChild(novoDivPrim)
+        const div = document.createElement('div')
+        div.setAttribute('class', 'imagemSelecionar')
 
+        const img = document.createElement('img')
+        if (item && item.source){
+            img.src = item.source
         } else {
-            novoImg.src = currentUser.lixo[i].capa
-            novoDivPrim.setAttribute('class', 'imagemItens itemAlbum')
-            novoDivSeg.setAttribute('class', 'titleItem')
-            novoDivSeg.innerText = currentUser.lixo[i].nome
-
-            novoDivPrim.appendChild(novoImg)
-            novoLi.appendChild(novoDivPrim)
-            novoLi.appendChild(novoDivSeg)
+            img.src = (item && item.capa) ? item.capa : "assets/img/defaultFolder.png"
         }
 
+        // Se for álbum sem capa/default, aplicar estilo default
+        if (!item?.source && (item?.capa === "None" || item?.capa === "assets/img/defaultFolder.png" || !item?.capa)) {
+            img.src = "assets/img/defaultFolder.png"
+            img.classList.add('default-capa')
+        }
 
-        novoLi.addEventListener('click', selecionarFotografiaLixo)
+        div.appendChild(img)
 
-        document.getElementsByClassName('zonaItensPara')[0].appendChild(novoLi)
+        if (!item?.source) {
+            const p = document.createElement('p')
+            p.setAttribute('class', 'pSelecionar')
+            p.innerText = item?.nome || 'Álbum'
+            div.appendChild(p)
+        }
+
+        li.appendChild(div)
+        li.addEventListener('click', selecionarItemLixo)
+        zona.appendChild(li)
     }
 }
 
-function desaparecerLixoSelecionar(){
-    document.getElementsByClassName('popUpItensFundo')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('popUpItens')[0].style.visibility = 'hidden'
+function fecharLixoSelecionar(){
+    const popUp = document.getElementById('popUpSelecionar')
+    const fundo = document.getElementById('popUpSelecionarFundo')
+    if (!popUp || !fundo) return
+
+    popUp.style.visibility = 'hidden'
+    fundo.style.visibility = 'hidden'
+    popUp.style.display = 'none'
+    fundo.style.display = 'none'
 }
 
-function selecionarFotografiaLixo(click){
-    //console.log(click.srcElement)
+function selecionarItemLixo(click){
+    const li = click.target.closest('li')
+    if (!li) return
 
-    if (click.srcElement.src){
-        if (click.srcElement.parentNode.parentNode.childNodes.length > 2){
-            
+    const idx = li.dataset.index
+    if (idx == null) return
 
-            numero =  parseInt(click.srcElement.parentNode.parentNode.innerText).toString()
-            
-        } else {
-            numero = click.srcElement.parentNode.parentNode.innerText
-        }
-        
-    } else if (click.srcElement.className == 'titleItem' || click.srcElement.className == 'imagemItens itemAlbum'){
-        //console.log("oi")
-        if(click.srcElement.parentNode.childNodes.length > 2){
-            
-            numero = parseInt(click.srcElement.parentNode.innerText).toString()
-        } else {
-
-            numero = click.srcElement.parentNode.innerText
-        }
-        
-    }
-
-    //console.log(numero)
-
-    if (numero){
-
-        if (!listaSelecionadasLixo.includes(numero)){
-            listaSelecionadasLixo = listaSelecionadasLixo.concat(numero)
-            click.srcElement.parentNode.parentNode.style.border =  '5px solid teal'
-        } else {
-            index = listaSelecionadasLixo.indexOf(numero)
-            listaSelecionadasLixo.splice(index, 1)
-            click.srcElement.parentNode.parentNode.style.border = 'none'
-            
-        }
-        //console.log(listaSelecionadasLixo)
+    if (listaSelecionadasLixo.includes(idx)){
+        const pos = listaSelecionadasLixo.indexOf(idx)
+        listaSelecionadasLixo.splice(pos, 1)
+        li.classList.remove('photo-selected')
+    } else {
+        listaSelecionadasLixo.push(idx)
+        li.classList.add('photo-selected')
     }
 }
 
@@ -210,6 +206,10 @@ function selecionarFotografiaLixo(click){
 function onload(){
     mostrarLixo()
     document.getElementsByClassName('apagarAlbuns')[0].addEventListener('click', aparecerLixoSelecionar)
+
+    // Permitir abrir o popup da fotografia ao clicar nas fotos do lixo
+    const numFotos = document.getElementsByClassName('img').length
+    fotosEventHandler(numFotos)
 }
 
 window.addEventListener('load', onload)

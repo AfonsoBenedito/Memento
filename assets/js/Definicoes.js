@@ -79,36 +79,66 @@ function MudarUtilizador() {
 }
 
 function aparecerMudarFoto() {
-    document.getElementsByClassName('fundoAlterarFotoPerfil')[0].addEventListener('click', desaparecerMudarFoto)
+    const overlay = document.getElementsByClassName('fundoAlterarFotoPerfil')[0]
+    const modal = document.getElementsByClassName('alterarFotoPerfil')[0]
 
-    document.getElementsByClassName('fotosPredefinidas')[0].addEventListener('click', aparecerFotosPredefinidas)
-    document.getElementsByClassName('fotosSuasFotos')[0].addEventListener('click', aparecerFotosSuasFotos)
+    // fechar ao clicar fora do modal
+    overlay.onclick = desaparecerMudarFoto
+    modal.onclick = function (e) { e.stopPropagation() }
 
-    document.getElementsByClassName('fundoAlterarFotoPerfil')[0].style.visibility = 'visible'
-    document.getElementsByClassName('alterarFotoPerfil')[0].style.visibility = 'visible'
+    // botão de fechar
+    const closeBtn = document.getElementsByClassName('afpClose')[0]
+    if (closeBtn) closeBtn.onclick = desaparecerMudarFoto
 
+    // tabs
+    document.getElementsByClassName('fotosPredefinidas')[0].onclick = aparecerFotosPredefinidas
+    document.getElementsByClassName('fotosSuasFotos')[0].onclick = aparecerFotosSuasFotos
+
+    // abrir (novo) + fallback (legado)
+    overlay.classList.add('is-open')
+    overlay.setAttribute('aria-hidden', 'false')
+    overlay.style.visibility = 'visible'
+    modal.style.visibility = 'visible'
+
+    // ESC fecha
+    document.addEventListener('keydown', fecharAoEsc)
+
+    if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus()
     aparecerFotosPredefinidas()
 }
 
 function desaparecerMudarFoto() {
-    document.getElementsByClassName('fundoAlterarFotoPerfil')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('alterarFotoPerfil')[0].style.visibility = 'hidden'
+    const overlay = document.getElementsByClassName('fundoAlterarFotoPerfil')[0]
+    const modal = document.getElementsByClassName('alterarFotoPerfil')[0]
+
+    overlay.classList.remove('is-open')
+    overlay.setAttribute('aria-hidden', 'true')
+
+    // fallback (legado)
+    overlay.style.visibility = 'hidden'
+    modal.style.visibility = 'hidden'
+
+    document.removeEventListener('keydown', fecharAoEsc)
 
 }
 
 function aparecerFotosPredefinidas() {
-    document.getElementsByClassName('fotosPredefinidas')[0].style.backgroundColor = 'rgba(58, 58, 59, 0.75)'
-    document.getElementsByClassName('fotosSuasFotos')[0].style.backgroundColor = 'rgba(58, 58, 59, 0)'
+    const tabPred = document.getElementsByClassName('fotosPredefinidas')[0]
+    const tabSuas = document.getElementsByClassName('fotosSuasFotos')[0]
+    const panelPred = document.getElementsByClassName('fotosPredefinidasDrop')[0]
+    const panelSuas = document.getElementsByClassName('fotosSuasFotosDrop')[0]
 
-    document.getElementsByClassName('fotosPredefinidas')[0].style.color = 'teal'
-    document.getElementsByClassName('fotosSuasFotos')[0].style.color = 'white'
+    tabPred.classList.add('is-active')
+    tabSuas.classList.remove('is-active')
+    tabPred.setAttribute('aria-selected', 'true')
+    tabSuas.setAttribute('aria-selected', 'false')
 
-    document.getElementsByClassName('fotosPredefinidas')[0].style.borderBottom = "1px solid rgba(255, 255, 255, 0.6)"
-    document.getElementsByClassName('fotosSuasFotos')[0].style.borderBottom = "none"
+    panelPred.classList.add('is-active')
+    panelSuas.classList.remove('is-active')
 
-    document.getElementsByClassName('fotosPredefinidasDrop')[0].style.visibility = 'visible'
-    document.getElementsByClassName('fotosPredefinidasDrop')[0].style.visibility = 'inherit'
-    document.getElementsByClassName('fotosSuasFotosDrop')[0].style.visibility = 'hidden'
+    // fallback (legado)
+    panelPred.style.visibility = 'inherit'
+    panelSuas.style.visibility = 'hidden'
 
     //<li>1<div class="fotosPredPlace"><img src="#"></div></li>
 
@@ -116,20 +146,22 @@ function aparecerFotosPredefinidas() {
 }
 
 function aparecerFotosSuasFotos() {
+    const tabPred = document.getElementsByClassName('fotosPredefinidas')[0]
+    const tabSuas = document.getElementsByClassName('fotosSuasFotos')[0]
+    const panelPred = document.getElementsByClassName('fotosPredefinidasDrop')[0]
+    const panelSuas = document.getElementsByClassName('fotosSuasFotosDrop')[0]
 
+    tabPred.classList.remove('is-active')
+    tabSuas.classList.add('is-active')
+    tabPred.setAttribute('aria-selected', 'false')
+    tabSuas.setAttribute('aria-selected', 'true')
 
-    document.getElementsByClassName('fotosPredefinidas')[0].style.backgroundColor = 'rgba(58, 58, 59, 0)'
-    document.getElementsByClassName('fotosSuasFotos')[0].style.backgroundColor = 'rgba(58, 58, 59, 0.75)'
+    panelPred.classList.remove('is-active')
+    panelSuas.classList.add('is-active')
 
-    document.getElementsByClassName('fotosPredefinidas')[0].style.color = 'white'
-    document.getElementsByClassName('fotosSuasFotos')[0].style.color = 'teal'
-
-    document.getElementsByClassName('fotosPredefinidas')[0].style.borderBottom = "none"
-    document.getElementsByClassName('fotosSuasFotos')[0].style.borderBottom = "1px solid rgba(255, 255, 255, 0.6)"
-
-    document.getElementsByClassName('fotosPredefinidasDrop')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('fotosSuasFotosDrop')[0].style.visibility = 'visible'
-    document.getElementsByClassName('fotosSuasFotosDrop')[0].style.visibility = 'inherit'
+    // fallback (legado)
+    panelPred.style.visibility = 'hidden'
+    panelSuas.style.visibility = 'inherit'
 
 }
 
@@ -141,7 +173,7 @@ function listagemFotosPredefinidas() {
 
         novoDiv.setAttribute('class', "fotosPredPlace")
         novoImg.setAttribute('src', 'assets/img/fotoCabeca/fotoCabeca' + i + '.png')
-        novoLi.innerText = i
+        novoLi.dataset.index = String(i)
 
         novoDiv.appendChild(novoImg)
         novoLi.appendChild(novoDiv)
@@ -165,7 +197,7 @@ function listagemFotosSuas() {
 
         novoDiv.setAttribute('class', "fotosSuasPlace")
         novoImg.setAttribute('src', currentUser.fotografias[i].source)
-        novoLi.innerText = i
+        novoLi.dataset.index = String(i)
 
         novoDiv.appendChild(novoImg)
         novoLi.appendChild(novoDiv)
@@ -185,12 +217,8 @@ function updateFotoPerfilDefs() {
 function atualizarFotografiaPerfilPredefinidas(click) {
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-
-    if (click.srcElement.src) {
-        numero = click.srcElement.parentNode.parentNode.innerText
-    } else {
-        numero = click.srcElement.innerText
-    }
+    const li = click.currentTarget
+    numero = (li && li.dataset && li.dataset.index) ? li.dataset.index : li.innerText
 
     currentUser.profilePicture = 'assets/img/fotoCabeca/fotoCabeca' + numero + '.png'
 
@@ -202,12 +230,8 @@ function atualizarFotografiaPerfilPredefinidas(click) {
 function atualizarFotografiaPerfilSuas(click) {
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-
-    if (click.srcElement.src) {
-        numero = click.srcElement.parentNode.parentNode.innerText
-    } else {
-        numero = click.srcElement.innerText
-    }
+    const li = click.currentTarget
+    numero = (li && li.dataset && li.dataset.index) ? li.dataset.index : li.innerText
 
     currentUser.profilePicture = currentUser.fotografias[numero].source
 
@@ -238,3 +262,9 @@ function onload() {
 
 
 window.addEventListener('load', onload)
+
+function fecharAoEsc(e) {
+    if (e && (e.key === 'Escape' || e.key === 'Esc')) {
+        desaparecerMudarFoto()
+    }
+}

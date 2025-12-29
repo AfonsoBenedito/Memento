@@ -1,55 +1,186 @@
-.boxMudarPass {
+/* =========================
+   Definições (redesign)
+   ========================= */
+
+.definicoesScroll {
     position: absolute;
-    top: 8%;
-    left: 5%;
-    background-color: #1f2024;
-    width: 25%;
-    height: 84%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 24px 24px 40px 24px;
+    box-sizing: border-box;
 }
 
-.boxMudarEmail {
-    position: absolute;
-    top: 45.5%;
-    left: 37.5%;
-    background-color: #1f2024;
-    width: 25%;
-    height: 46.5%;
+@media screen and (max-width: 768px) {
+    .definicoesScroll {
+        padding: 18px 14px 28px 14px;
+    }
 }
 
-.boxMudarUtilizador {
-    position: absolute;
-    top: 45.5%;
-    float: right;
-    right: 5%;
-    background-color: #1f2024;
-    width: 25%;
-    height: 46.5%;
-}
-
-/*----------------------------------------*/
-
-.boxMudarImagem {
-    position: absolute;
-    top: 8%;
-    float: right;
-    right: 5%;
-    background-color: #1f2024;
-    width: 57.5%;
-    height: 30%;
+.defPageHeader {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding: 10px 0 14px 0;
+    margin: -10px 0 14px 0;
+    background: linear-gradient(180deg, rgba(15, 15, 17, 0.98) 0%, rgba(15, 15, 17, 0.88) 70%, rgba(15, 15, 17, 0) 100%);
+    backdrop-filter: blur(8px);
     text-align: left;
 }
 
-.posiImagemPerfil_Def {
-    background-color: teal;
-    position: absolute;
-    height: 180px;
-    width: 180px;
-    top: 7px;
-    float: right;
-    right: 40px;
-    border-radius: 150px;
-    border: 5px solid white;
+.defPageTitle {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.3px;
+}
+
+.defPageSubtitle {
+    margin-top: 4px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.definicoesGrid {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    display: grid;
+    /* Grid fluida mas previsível: 4 colunas em desktop */
+    grid-template-columns: repeat(4, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.defCard {
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(180deg, rgba(35, 36, 40, 0.86) 0%, rgba(26, 27, 31, 0.72) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(10px);
     overflow: hidden;
+    text-align: left;
+
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.defCard:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 128, 128, 0.22);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34);
+}
+
+/* Card de Imagem de Perfil: mais compacto */
+.boxMudarImagem .defCardHeader {
+    padding: 14px 14px 10px 14px;
+}
+
+.boxMudarImagem .defCardBody {
+    padding: 14px;
+}
+
+.boxMudarImagem .defProfileRow {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.boxMudarImagem .defAvatarWrap {
+    min-width: 0;
+}
+
+.boxMudarImagem .posiImagemPerfil_Def {
+    width: 120px;
+    height: 120px;
+    border-width: 3px;
+}
+
+.boxMudarImagem .defProfileActions {
+    width: 100%;
+    align-items: stretch;
+}
+
+.boxMudarImagem #btnAlterarPerfil {
+    width: 100%;
+    max-width: 260px;
+    align-self: center;
+}
+
+@media screen and (max-width: 1100px) {
+    .definicoesGrid {
+        grid-template-columns: repeat(2, minmax(260px, 1fr));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .definicoesGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.defCardHeader {
+    padding: 16px 16px 10px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.defCardTitle {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+}
+
+.defCardSubtitle {
+    margin-top: 6px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.defCardBody {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.defProfileRow {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+    .defProfileRow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.defAvatarWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
+}
+
+.posiImagemPerfil_Def {
+    background: rgba(0, 128, 128, 0.28);
+    position: relative;
+    height: 168px;
+    width: 168px;
+    border-radius: 999px;
+    border: 4px solid rgba(255, 255, 255, 0.7);
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }
 
 .zonaPerfilImg {
@@ -68,298 +199,362 @@
     margin-right: auto;
 }
 
-.boxTitlesEDescricao {
-    position: absolute;
-    height: 90%;
-    width: 35%;
-    top: 5%;
-    left: 3%;
+.defProfileActions {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.boxTitlesEDescricao h1 {
-    position: absolute;
-    top: -15px;
-    left: 5px;
-    font-size: 30px;
+.defHint {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
 }
 
-.boxTitlesEDescricao p {
-    position: absolute;
-    top: 35px;
-    left: 5px;
-    font-size: 20px;
+.defForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
 }
 
-#btnAlterarPerfil {
-    position: absolute;
-    width: 50%;
-    height: 45px;
-    background-color: rgba(0, 128, 128, 0.6);
-    bottom: 15px;
-    left: 5px;
-    font-size: x-large;
-    border-radius: 1px;
-    border: none;
-    color: white;
-    font-family: diamante;
-    cursor: pointer;
-    text-align: center;
-    padding-top: 10px;
+.defLabel {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.72);
+    margin-top: 2px;
 }
 
-#btnAlterarPerfil:hover {
-    background-color: rgba(0, 128, 128, 0.74);
-}
-
-
-.fundoAlterarFotoPerfil {
-    position: absolute;
+.defInput {
     width: 100%;
-    height: 100%;
-    left: 0%;
-    top: 0px;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 8;
-    visibility: hidden;
+    height: 40px;
+    padding: 0 12px;
+    box-sizing: border-box;
+
+    background: rgba(70, 70, 73, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+
+    color: white;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    outline: none;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.fundoAlterarFotoPerfil img {
-    position: absolute;
-    width: 25px;
-    height: auto;
-    top: 30px;
-    float: right;
-    right: 30px;
-    opacity: 0.9;
+.defInput::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.defInput:focus {
+    background: rgba(70, 70, 73, 0.5);
+    border-color: rgba(0, 128, 128, 0.55);
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.18);
+}
+
+.defBtn {
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
     cursor: pointer;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-.fundoAlterarFotoPerfil img:hover {
-    transform: scale(1.1)
+.defBtn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(0, 128, 128, 0.45);
+    background: rgba(0, 128, 128, 0.18);
+}
+
+.defBtn:active {
+    transform: translateY(0px);
+}
+
+.defBtnPrimary {
+    border-color: rgba(0, 128, 128, 0.55);
+    background: rgba(0, 128, 128, 0.22);
+}
+
+/* Mantém compatibilidade: botão alterar perfil já é estilizado via .defBtn */
+#btnAlterarPerfil {
+    width: 220px;
+}
+
+/* Botões das forms: no fundo do card e consistentes */
+.defForm .defBtn {
+    margin-top: auto;
+}
+
+
+/* =========================
+   Modal: alterar foto perfil
+   ========================= */
+.fundoAlterarFotoPerfil {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+
+.fundoAlterarFotoPerfil.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .alterarFotoPerfil {
-    visibility: hidden;
-    position: absolute;
-    width: 70%;
-    height: 480px;
-    left: 15%;
-    top: 95px;
-    background-color: #1f2024f6;
-    border-radius: 3px;
-    z-index: 10;
+    width: min(760px, calc(100vw - 40px));
+    height: min(620px, calc(100vh - 40px));
+
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(180deg, rgba(35, 36, 40, 0.92) 0%, rgba(26, 27, 31, 0.82) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 18px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(12px);
     overflow: hidden;
+
+    transform: translateY(10px) scale(0.985);
+    opacity: 0;
+    transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
-.titleFotoPerfil {
+.fundoAlterarFotoPerfil.is-open .alterarFotoPerfil {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+}
+
+.afpClose {
     position: absolute;
-    width: 90%;
-    height: 50px;
-    left: 5%;
-    top: 5px;
-    text-align: center;
-    font-size: 30px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-}
-
-.separadorFotoPerfil {
-    position: absolute;
-    width: 70%;
-    height: 35px;
-    left: 15%;
-    top: 65px;
-    text-align: center;
-    font-size: 30px;
-    /*border-bottom: 1px solid rgba(255, 255, 255, 0.6);*/
-}
-
-.fotosPredefinidas {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    top: 0px;
-    left: 0%;
-    text-align: center;
-    font-size: 25px;
-}
-
-.fotosPredefinidas:hover {
-    background-color: rgba(58, 58, 59, 0.692);
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
     cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
+.afpClose img {
+    width: 18px;
+    height: auto;
+    opacity: 0.9;
+}
+
+.afpClose:hover {
+    transform: translateY(-1px);
+    border-color: rgba(0, 128, 128, 0.45);
+    background: rgba(0, 128, 128, 0.18);
+}
+
+.afpHeader {
+    padding: 18px 18px 10px 18px;
+    padding-right: 56px; /* espaço para o botão fechar */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.afpTitle {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    font-size: 18px;
+}
+
+.afpSubtitle {
+    margin-top: 6px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.70);
+}
+
+.afpTabs {
+    display: flex;
+    gap: 8px;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Mantém as classes originais (JS), mas com look moderno */
+.afpTab,
+.fotosPredefinidas,
 .fotosSuasFotos {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    top: 0px;
-    float: right;
-    right: 0%;
-    text-align: center;
-    font-size: 25px;
+    flex: 0 0 auto;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
+.afpTab:hover,
+.fotosPredefinidas:hover,
 .fotosSuasFotos:hover {
-    background-color: rgba(58, 58, 59, 0.692);
-    cursor: pointer;
+    transform: translateY(-1px);
+    border-color: rgba(0, 128, 128, 0.45);
+    background: rgba(0, 128, 128, 0.16);
 }
 
-
-
-
-.fotosPredefinidasDrop {
-    /*background-color: red;*/
-    visibility: hidden;
-    position: absolute;
-    width: 80%;
-    top: 30%;
-    height: 65%;
-    left: 10%;
-    overflow: auto;
+.afpTab.is-active,
+.fotosPredefinidas.is-active,
+.fotosSuasFotos.is-active {
+    border-color: rgba(0, 128, 128, 0.60);
+    background: rgba(0, 128, 128, 0.22);
+    color: white;
 }
 
-.zonaFotosPred {
-    /*background-color: blue;*/
-    width: 100%;
-    left: 0px;
-    top: 5px;
-    height: 50px;
-    text-align: left;
-}
-
-.zonaFotosPred li {
-    display: inline-block;
-    position: relative;
-    width: 17.5%;
-    height: 125px;
-    margin-left: 1%;
-    margin-bottom: 30px;
-    background-color: teal;
-    border-radius: 100px;
-    border: 4px solid white;
+.afpBody {
+    flex: 1;
+    padding: 14px 18px 18px 18px;
+    box-sizing: border-box;
     overflow: hidden;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0);
 }
 
-.fotosPredPlace {
-    position: absolute;
-    width: 130%;
-    left: -15%;
-    top: 0px;
+.afpPanel {
     height: 100%;
-    text-align: center;
-}
-
-.fotosPredPlace img {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    height: 100%;
-    width: auto;
-    top: 0px;
-}
-
-.fotosPredPlace img:hover {
-    transform: scale(1.1);
-}
-
-
-
-
-.fotosSuasFotosDrop {
-    /*background-color: yellow;*/
-    visibility: hidden;
-    position: absolute;
-    width: 80%;
-    top: 30%;
-    height: 65%;
-    left: 10%;
     overflow: auto;
+    display: none;
 }
 
+.afpPanel.is-active {
+    display: block;
+}
+
+/* Zonas de fotos: grelha responsiva */
+.zonaFotosPred,
 .zonaFotosSuas {
-    /*background-color: pink;*/
-    width: 100%;
-    left: 0px;
-    top: 5px;
-    height: 50px;
-    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 14px;
 }
 
-
+.zonaFotosPred li,
 .zonaFotosSuas li {
-    display: inline-block;
     position: relative;
-    width: 17.5%;
-    height: 125px;
-    margin-left: 1%;
-    margin-bottom: 30px;
-    background-color: teal;
-    border-radius: 100px;
-    border: 4px solid white;
+    aspect-ratio: 1 / 1;
+    border-radius: 999px;
     overflow: hidden;
+
+    background: rgba(0, 128, 128, 0.25);
+    border: 3px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+
     cursor: pointer;
-    color: rgba(255, 255, 255, 0);
+    user-select: none;
+
+    /* mantém compatibilidade com o JS antigo (não mostrar texto) */
+    font-size: 0;
+    color: transparent;
+
+    transition: transform 0.16s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.zonaFotosPred li:hover,
+.zonaFotosSuas li:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 128, 128, 0.85);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.36);
+}
+
+.fotosPredPlace,
 .fotosSuasPlace {
     position: absolute;
-    width: 130%;
-    left: -15%;
-    top: 0px;
-    height: 100%;
-    text-align: center;
+    inset: 0;
+    display: grid;
+    place-items: center;
 }
 
+.fotosPredPlace img,
 .fotosSuasPlace img {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
     height: 100%;
-    width: auto;
-    top: 0px;
+    object-fit: cover;
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
 }
 
-.fotosSuasPlace img:hover {
-    transform: scale(1.1);
+.zonaFotosPred li:hover img,
+.zonaFotosSuas li:hover img {
+    transform: scale(1.08);
+}
+
+@media screen and (max-width: 768px) {
+    .alterarFotoPerfil {
+        width: calc(100vw - 24px);
+        height: calc(100vh - 24px);
+        border-radius: 16px;
+    }
+
+    .afpHeader {
+        padding: 16px 16px 10px 16px;
+        padding-right: 56px;
+    }
+
+    .afpTabs {
+        padding: 10px 16px;
+        overflow: auto;
+    }
+
+    .afpBody {
+        padding: 12px 16px 16px 16px;
+    }
+}
+
+/* Em portrait: centrar o modal na área útil (considera a sidebar mini quando fechada) */
+@media screen and (orientation: portrait) {
+    .fundoAlterarFotoPerfil {
+        box-sizing: border-box;
+        padding-left: var(--sidebar-mini-width);
+        padding-top: 15vh;
+        align-items: flex-start;
+    }
+
+    body.sidebar-open .fundoAlterarFotoPerfil {
+        padding-left: 0;
+    }
+
+    /* Em portrait, tal como o "Importar fotos": popup mais em cima e sem ocupar o ecrã inteiro */
+    .alterarFotoPerfil {
+        height: min(620px, calc(100vh - 15vh - 24px));
+    }
 }
 
 /*----------------------------------------*/
-
-
-input {
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid;
-    border-color: white;
-    color: white;
-    width: 200px;
-    height: 30px;
-    border-radius: 24px;
-    transition: 0.05s;
-    outline: none;
-    background: none;
-}
-
-button[type="submit"] {
-    background: none;
-    display: block;
-    margin: 20px auto;
-    border: 2px solid white;
-    width: 125px;
-    height: 35px;
-    color: white;
-    border-radius: 24px;
-    transition: 0.05s;
-    cursor: pointer;
-    text-align: center;
-}
-
-button[type="submit"]:hover {
-    width: 160px;
-    border-color: #2ecc71;
-    background: #2ecc71;
-    color: aliceblue;
-}

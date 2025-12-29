@@ -1,13 +1,46 @@
 .posicaoFotografiasGeral {
     visibility: visible;
     position: absolute;
-    width: 100%;
+    width: calc(100% - var(--sidebar-mini-width));
     top: 28%;
     height: 70%;
-    left: 0px;
+    left: var(--sidebar-mini-width);
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 5;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Visual mais moderno */
+    padding: 18px 18px 28px;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+/* Scrollbar igual ao resto do site (teal) */
+.posicaoFotografiasGeral {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(0, 128, 128, 0.85) transparent; /* Firefox */
+}
+
+.posicaoFotografiasGeral::-webkit-scrollbar {
+    width: 10px;
+}
+
+.posicaoFotografiasGeral::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0);
+}
+
+.posicaoFotografiasGeral::-webkit-scrollbar-thumb {
+    background: rgba(0, 128, 128, 0.85);
+    border-radius: 5px;
+}
+
+.posicaoFotografiasGeral::-webkit-scrollbar-thumb:hover {
+    background: teal;
+}
+
+body.sidebar-open .posicaoFotografiasGeral {
+    left: var(--sidebar-full-width);
+    width: calc(100% - var(--sidebar-full-width));
 }
 
 .posicaoFotografias {
@@ -19,31 +52,42 @@
     text-align: left;
 }
 
-.sepOrdenacao {
+.SepOrdenacao {
     display: block;
     position: relative;
-    width: 93.5%;
-    margin-left: 1%;
-    margin-bottom: 20px;
-    /*margin-right: 0%;*/
+    width: 100%;
+    margin: 0 0 26px;
     height: fit-content;
-    /*overflow: hidden;*/
     cursor: pointer;
     list-style: none;
+    /* Sem "aspeto de card" */
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .tituloOrdenacao {
-    font-size: 35px;
-    margin-left: -3.8%;
+    font-size: 22px;
+    margin-left: 0;
+    text-align: left;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: rgba(255, 255, 255, 0.92);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .sepTituloOrdenacao {
-    width: 103%;
+    width: 100%;
     height: 1px;
-    background-color: rgb(255, 255, 255, 0.4);
+    background: linear-gradient(90deg, rgba(0, 255, 255, 0.55), rgba(255, 255, 255, 0.10), rgba(0,0,0,0));
     border-radius: 1px;
-    margin-bottom: 20px;
-    margin-left: -3.5%;
+    margin: 12px 0 18px;
+    margin-left: 0;
 }
 
 .fotosOrdenacao {
@@ -51,37 +95,59 @@
     position: relative;
     width: 18%;
     margin-left: 1%;
-    margin-bottom: 30px;
+    margin-bottom: 18px;
     height: 180px;
     overflow: hidden;
-    background-color: rgba(0, 128, 128, 0.2);
-    color: rgba(255, 255, 255, 0);
-    box-shadow: 2px 2px 2px teal;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: transparent;
+    font-size: 0; /* esconder o índice */
+    box-shadow: 0 10px 26px rgba(0,0,0,0.35);
     cursor: pointer;
     list-style: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.fotosOrdenacao::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(80% 80% at 50% 40%, rgba(0,255,255,0.12), rgba(0,0,0,0) 55%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.fotosOrdenacao:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 255, 255, 0.25);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+}
+
+.fotosOrdenacao:hover::after {
+    opacity: 1;
 }
 
 .img {
     position: absolute;
-    width: 150%;
-    left: -25%;
-    height: 100%;
-    top: 0px;
+    inset: 0;
     text-align: center;
     z-index: 15;
 }
 
 .img img {
-    position: relative;
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    width: auto;
-    top: 0px;
-    margin-left: auto;
-    margin-right: auto;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 0.35s ease;
 }
 
 .img img:hover {
-    transform: scale(1.1)
+    transform: scale(1.07);
 }
 
 
@@ -91,38 +157,86 @@
     bottom: 0px;
     width: 30%;
     height: 50px;
-    border-top: 1px solid rgba(255, 255, 255, 0.397);
-    font-size: 20px;
-    text-align: center;
-    color: white;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    /* Encostado à esquerda dentro da própria div */
+    justify-content: flex-start;
+    padding-left: 20px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
     z-index: 22;
 }
 
 .ordenarPorFotografia div {
-    position: absolute;
-    height: 60%;
-    top: 23%;
-    width: 40%;
-    text-align: right;
-    left: 0%;
+    margin-right: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    position: static;
+    width: auto;
+    height: auto;
+    text-align: left;
 }
 
 #ordenacaoFotografia {
-    position: absolute;
-    width: 35%;
-    float: right;
-    right: 15%;
-    height: 50%;
-    top: 25%;
-    border: 2px solid teal;
-    border-radius: 4px;
-    background-color: rgba(0, 128, 128, 0.5);
-    z-index: 15;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(0, 128, 128, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 10px;
     color: white;
-    font-family: diamante;
+    padding: 6px 35px 6px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    position: relative;
+    width: auto;
+    height: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 12px) center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.ordenarPorFotografia:hover {
-    cursor: pointer;
-    background-color: rgba(58, 58, 59, 0.692);
+#ordenacaoFotografia:hover {
+    background-color: rgba(0, 128, 128, 0.3);
+    border-color: #00ffff;
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+#ordenacaoFotografia option {
+    background-color: #1f2024;
+    color: white;
+    padding: 10px;
+}
+
+/* Sem hover no container: manter o hover apenas no select (#ordenacaoFotografia:hover) */
+
+@media screen and (orientation: portrait) {
+    .posicaoFotografiasGeral {
+        top: 12% !important;
+        /* Em portrait, não empurrar pela sidebar */
+        left: 2% !important;
+        width: 96% !important;
+        height: 88% !important;
+        padding-left: 18px !important;
+    }
+
+    .fotosOrdenacao {
+        width: 45% !important;
+        margin-left: 3% !important;
+        margin-right: 2% !important;
+        height: 180px !important;
+    }
+
+    .tituloOrdenacao {
+        font-size: 22px !important;
+        margin-left: 0 !important;
+    }
 }
