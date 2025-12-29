@@ -11,6 +11,38 @@
 
 
 
+//************************************************************************** *//
+// Guard de sessão (protege todas as páginas que carregam SiteBase.js)
+// - Se não houver sessão iniciada, redireciona para index.html
+// - Também valida se o utilizador existe no localStorage (evita crashes)
+;(function sessionGuard() {
+    try {
+        // Inicializar estado base da sessão (mantém compatibilidade com o resto do código)
+        if (sessionStorage.getItem('Logged') == null) sessionStorage.setItem('Logged', 'False')
+        if (sessionStorage.getItem('CurrentUser') == null) sessionStorage.setItem('CurrentUser', 'None')
+
+        const logged = sessionStorage.getItem('Logged') === 'True'
+        const currentUser = sessionStorage.getItem('CurrentUser')
+
+        // Sem sessão iniciada -> voltar ao login
+        if (!logged || !currentUser || currentUser === 'None') {
+            window.location.replace('index.html')
+            return
+        }
+
+        // Sessão "True" mas sem utilizador persistido -> reset e voltar ao login
+        const userRaw = localStorage.getItem(currentUser)
+        if (!userRaw) {
+            sessionStorage.setItem('Logged', 'False')
+            sessionStorage.setItem('CurrentUser', 'None')
+            window.location.replace('index.html')
+            return
+        }
+    } catch (_) {
+        try { window.location.replace('index.html') } catch (__) { }
+    }
+})()
+
 // Migration fix for legacy paths across the site
 try {
     if (sessionStorage.CurrentUser && sessionStorage.CurrentUser !== 'None') {
@@ -29,6 +61,17 @@ var numMaximo = 0
 var anteriorSource = "nenhum"
 var proximoSource = "nenhum"
 var verTop = false
+
+// Evitar “ghost image drag” (arrastar imagens cria uma cópia/fantasma no cursor)
+// Nota: isto NÃO impede selecionar/clicar; apenas bloqueia o drag nativo de <img>.
+document.addEventListener('dragstart', function (e) {
+    try {
+        const t = e && e.target
+        if (t && t.tagName === 'IMG') {
+            e.preventDefault()
+        }
+    } catch (_) { }
+}, true)
 
 function FecharColuna(animate = true) {
     let col = document.getElementsByClassName('colunaOpcoes')[0];
@@ -148,26 +191,62 @@ function maisVisualizacaoFotografiasAlbuns(numero) {
 
 
 function abrirBaseFotografia(click) {
+    let source, numero;
+    let paginaAtual = document.getElementsByClassName('paginaAtual')[0].textContent.trim();
+    let target = click.target || click.srcElement;
 
-    if (click.srcElement.src == null) {
-        source = click.srcElement.firstChild.src
+    // Garantir que temos o utilizador carregado (é usado em vários ramos abaixo)
+    currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-        numero = click.srcElement.parentNode.innerText
-
-    } else {
-        source = click.srcElement.src
-
-        numero = click.srcElement.parentNode.parentNode.innerText
-
+    // Tentar encontrar a imagem e o contentor LI de forma robusta
+    let li = target.closest('li');
+    let imgContainer = target.closest('.img') || target.closest('.imgMV');
+    let img = (target.tagName === 'IMG') ? target : (li ? li.querySelector('img') : null);
+    
+    if (img) {
+        source = img.src;
     }
 
+    if (li) {
+        numero = li.textContent.trim();
+    }
 
-    if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Fotografias') {
+    // Converter para número para garantir que a indexação no array funcione
+    numero = parseInt(numero);
+
+    // LIXO: abrir popup apenas com base no src clicado (não depender de índice)
+    if (paginaAtual === 'Lixo') {
+        // Só abrir para fotografias (no lixo também existem álbuns com capa)
+        if (!target.closest('.img')) return
+        if (!source) return
+
+        const fundo = document.getElementsByClassName('fotoAbertaFundoClick')[0]
+        const modal = document.getElementsByClassName('fotoAberta')[0]
+        if (fundo) fundo.style.visibility = 'visible'
+        if (modal) modal.style.visibility = 'visible'
+
+        abrirFotografia(source)
+        return
+    }
+
+    // Fallback: alguns <li> podem não ter texto utilizável; usar data-foto-index definido no handler
+    if (Number.isNaN(numero) && imgContainer && imgContainer.dataset && typeof imgContainer.dataset.fotoIndex !== 'undefined') {
+        numero = parseInt(imgContainer.dataset.fotoIndex)
+    }
+
+    // Se ainda não conseguimos obter um índice, abortar com segurança
+    if (Number.isNaN(numero)) {
+        console.warn('abrirBaseFotografia: índice inválido', { paginaAtual, target })
+        return
+    }
+
+    if (paginaAtual === 'Fotografias') {
         maisVisualizacaoFotografias(numero)
 
-        encontrou = false
+        let encontrou = false
+        currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-        for (i = 0; i < currentUser.curtidas.length; i++) {
+        for (let i = 0; i < currentUser.curtidas.length; i++) {
             if (currentUser.curtidas[i].source == currentUser.fotografias[numero].source) {
                 encontrou = true
             }
@@ -185,20 +264,28 @@ function abrirBaseFotografia(click) {
         abrirFotografia(source)
         atualizarSetas(numero, numMaximo)
 
-    } else if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Álbuns') {
+    } else if (paginaAtual === 'Álbuns') {
         maisVisualizacaoFotografiasAlbuns(numero)
 
-        nomeAlbum = document.getElementsByClassName('tituloMomento')[0].innerText
-
-        nomeAlbum = nomeAlbum.slice(8)
+        // Preferir o nome real guardado no dataset (evita problemas com CSS text-transform / uppercase)
+        const tituloElem = document.getElementsByClassName('tituloMomento')[0]
+        nomeAlbum = (tituloElem && tituloElem.dataset && tituloElem.dataset.nomeReal)
+            ? tituloElem.dataset.nomeReal
+            : (tituloElem ? tituloElem.innerText.slice(8) : '')
 
         indexAlbum = 0
 
         for (i = 0; i < currentUser.albuns.length; i++) {
-            if (nomeAlbum == currentUser.albuns[i].nome) {
+            if (nomeAlbum && currentUser.albuns[i].nome && nomeAlbum.toLowerCase() == currentUser.albuns[i].nome.toLowerCase()) {
                 indexAlbum = i
 
             }
+        }
+
+        // Validar bounds antes de aceder à fotografia
+        if (!currentUser.albuns[indexAlbum] || !currentUser.albuns[indexAlbum].fotografias || !currentUser.albuns[indexAlbum].fotografias[numero]) {
+            console.warn('abrirBaseFotografia: fotografia não encontrada no álbum', { indexAlbum, numero, nomeAlbum })
+            return
         }
 
         encontrou = false
@@ -221,41 +308,27 @@ function abrirBaseFotografia(click) {
         abrirFotografia(source)
         atualizarSetas(numero, numMaximo)
 
-    } else if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Mais Vista') {
-
-
-        //numeroTeste = click.srcElement.parentNode.parentNode.parentNode.innerText
-        //console.log("bla")
-
-        //console.log(numeroTeste)
+    } else if (paginaAtual === 'Mais Vista') {
 
         document.getElementsByClassName('fotoAbertaFundoClick')[0].style.visibility = 'visible'
         document.getElementsByClassName('fotoAberta')[0].style.visibility = 'visible'
 
-        if (click.srcElement.parentNode.parentNode.className == 'imgMV') {
+        let imgMVContainer = target.closest('.imgMV');
 
-            numeroTeste = click.srcElement.parentNode.parentNode.parentNode.innerText
-
-            numeroTop = numeroTeste.substring(0, numeroTeste.length - 2)
-
-            //console.log("mmm")
+        if (imgMVContainer) {
+            // É uma foto do Top 10
+            // numero já foi extraído do LI (ex: "1mv" -> 1)
+            let numeroTop = numero; 
 
             tops = JSON.parse(sessionStorage.getItem('top10'))
-
-            //console.log(tops)
 
             indexFotografiaTop = -1
 
             for (k = 0; k < currentUser.fotografias.length; k++) {
-
-                if (tops[parseInt(numeroTop) - 1][0] == currentUser.fotografias[k].source) {
-
+                if (tops[numeroTop - 1] && tops[numeroTop - 1][0] == currentUser.fotografias[k].source) {
                     indexFotografiaTop = k
-
                 }
             }
-
-            //console.log(indexFotografiaTop)
 
             encontrou = false
 
@@ -273,42 +346,27 @@ function abrirBaseFotografia(click) {
                 document.getElementById('curtidasOnOff').src = "assets/img/curtidasOff.png"
             }
 
-
-
-
-
             verTop = true
-
             abrirFotografia(source)
             atualizarSetas(numeroTop, 10)
 
         } else {
-
-            if (click.srcElement.src) {
-                numeroTeste = click.srcElement.parentNode.parentNode.innerText
-            } else {
-                numeroTeste = click.srcElement.parentNode.innerText
-            }
-
-
+            // É uma foto das Curtidas
             verTop = false
-
-            numero = parseInt(numeroTeste)
-
-            //console.log(numero)
-
 
             encontrou = false
 
             for (i = 0; i < currentUser.fotografias.length; i++) {
-                if (currentUser.curtidas[numero].source == currentUser.fotografias[i].source) {
+                if (currentUser.curtidas[numero] && currentUser.curtidas[numero].source == currentUser.fotografias[i].source) {
                     indexFotografiaCurtidas = i
                 }
             }
 
-            for (i = 0; i < currentUser.curtidas.length; i++) {
-                if (currentUser.curtidas[i].source == currentUser.fotografias[indexFotografiaCurtidas].source) {
-                    encontrou = true
+            if (typeof indexFotografiaCurtidas !== 'undefined') {
+                for (i = 0; i < currentUser.curtidas.length; i++) {
+                    if (currentUser.curtidas[i].source == currentUser.fotografias[indexFotografiaCurtidas].source) {
+                        encontrou = true
+                    }
                 }
             }
 
@@ -317,8 +375,6 @@ function abrirBaseFotografia(click) {
             } else {
                 document.getElementById('curtidasOnOff').src = "assets/img/curtidasOff.png"
             }
-
-
 
             abrirFotografia(source)
             atualizarSetas(numero, numMaximo)
@@ -343,8 +399,9 @@ function mudarFotografia(source, mudanca) {
 
     //console.log("novo" + novoNumero)
 
+    let paginaAtual = document.getElementsByClassName('paginaAtual')[0].textContent.trim();
 
-    if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Fotografias') {
+    if (paginaAtual === 'Fotografias') {
         maisVisualizacaoFotografias(novoNumero)
 
         encontrou = false
@@ -362,10 +419,10 @@ function mudarFotografia(source, mudanca) {
         }
 
 
-    } else if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Álbuns') {
+    } else if (paginaAtual === 'Álbuns') {
         maisVisualizacaoFotografiasAlbuns(novoNumero)
 
-        nomeAlbum = document.getElementsByClassName('tituloMomento')[0].innerText
+        nomeAlbum = document.getElementsByClassName('tituloMomento')[0].textContent.trim()
 
         nomeAlbum = nomeAlbum.slice(8)
 
@@ -391,7 +448,7 @@ function mudarFotografia(source, mudanca) {
         } else {
             document.getElementById('curtidasOnOff').src = "assets/img/curtidasOff.png"
         }
-    } else if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Mais Vista') {
+    } else if (paginaAtual === 'Mais Vista') {
 
         //console.log("bra")
 
@@ -461,11 +518,12 @@ function mudarFotografia(source, mudanca) {
 }
 
 function adicionarCurtidas() {
-    if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Fotografias') {
+    let paginaAtual = document.getElementsByClassName('paginaAtual')[0].textContent.trim();
+    if (paginaAtual === 'Fotografias') {
         adicionarCurtidasFotografias()
-    } else if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Álbuns') {
+    } else if (paginaAtual === 'Álbuns') {
         adicionarCurtidasAlbuns()
-    } else if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Mais Vista') {
+    } else if (paginaAtual === 'Mais Vista') {
         if (verTop == true) {
             adicionarCurtidasMaisVistasTop()
         } else {
@@ -675,7 +733,8 @@ function adicionarCurtidasMaisVistasCurtidas() {
 }
 
 function lixoIconHandlers() {
-    if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Álbuns') {
+    let paginaAtual = document.getElementsByClassName('paginaAtual')[0].textContent.trim();
+    if (paginaAtual === 'Álbuns') {
         removerFotografiaAlbumIndividual()
     } else {
         apagarFotografiaDeFotografias()
@@ -685,9 +744,10 @@ function lixoIconHandlers() {
 function abrirDetalhesFotografias() {
 
     //console.log("oioioi")
-    if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Fotografias') {
+    let paginaAtual = document.getElementsByClassName('paginaAtual')[0].textContent.trim();
+    if (paginaAtual === 'Fotografias') {
         abrirDetalhesFotografiaFotos()
-    } else if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Álbuns') {
+    } else if (paginaAtual === 'Álbuns') {
         abrirDetalhesFotografiaAlbuns()
     }
 }
@@ -756,20 +816,51 @@ function fecharPopUps() {
 //************************************************************************** *//
 
 function fotosEventHandler(numeroMaximo) {
-    console.log(numeroMaximo)
     numMaximo = numeroMaximo
-    for (i = 0; i < numeroMaximo; i++) {
-        document.getElementsByClassName('img')[i].addEventListener('click', abrirBaseFotografia)
-    }
 
-    if (document.getElementsByClassName('paginaAtual')[0].innerText == 'Mais Vista') {
-        for (k = 0; k < 10; k++) {
-            console.log(document.getElementsByClassName('imgMV')[k].firstChild.firstChild)
-            document.getElementsByClassName('imgMV')[k].addEventListener('click', abrirBaseFotografia)
+    // Na página "Mais Vista" o DOM é mais dinâmico; usar delegação para garantir
+    // que os cliques nas fotos (Top10 e Curtidas) abrem sempre.
+    const paginaAtual = document.getElementsByClassName('paginaAtual')[0]?.textContent?.trim()
+    if (paginaAtual === 'Mais Vista') {
+        if (!window.__maisVistaDelegationBound) {
+            const container = document.getElementsByClassName('maisVistaPag')[0]
+            if (container) {
+                container.addEventListener('click', (e) => {
+                    const t = e.target
+                    if (t && (t.closest('.img') || t.closest('.imgMV'))) {
+                        abrirBaseFotografia(e)
+                    }
+                })
+                window.__maisVistaDelegationBound = true
+            }
         }
 
+        const fundo = document.getElementsByClassName('fotoAbertaFundoClick')[0]
+        if (fundo) {
+            fundo.removeEventListener('click', fecharFotografia)
+            fundo.addEventListener('click', fecharFotografia)
+        }
+        return
     }
-    document.getElementsByClassName('fotoAbertaFundoClick')[0].addEventListener('click', fecharFotografia)
+
+    // Ligar eventos às fotos que *existem* no DOM (evita erros quando numeroMaximo
+    // não coincide com o número real de elementos .img).
+    const imgs = document.getElementsByClassName('img')
+    for (let i = 0; i < imgs.length; i++) {
+        // Guardar o índice de forma robusta baseado no <li> (evita conflitos quando existem
+        // outros elementos .img fora da grelha principal).
+        const li = imgs[i].closest('li')
+        const idx = li ? parseInt(li.textContent.trim()) : NaN
+        if (!Number.isNaN(idx)) imgs[i].dataset.fotoIndex = String(idx)
+        imgs[i].removeEventListener('click', abrirBaseFotografia)
+        imgs[i].addEventListener('click', abrirBaseFotografia)
+    }
+
+    const fundo = document.getElementsByClassName('fotoAbertaFundoClick')[0]
+    if (fundo) {
+        fundo.removeEventListener('click', fecharFotografia)
+        fundo.addEventListener('click', fecharFotografia)
+    }
 }
 
 //************************************************************************** *//
@@ -790,21 +881,21 @@ function atualizarSetas(numero, numeroMaximo) {
             numeroFoto = parseInt(numero)
 
             if (parseInt(numero) > 1 && parseInt(numero) < 10) {
-                anteriorSource = document.getElementsByClassName('imgMV')[parseInt(numero) - 2].firstChild.firstChild.src
-                proximoSource = document.getElementsByClassName('imgMV')[parseInt(numero)].firstChild.firstChild.src
+                anteriorSource = document.getElementsByClassName('imgMV')[parseInt(numero) - 2].querySelector('img').src
+                proximoSource = document.getElementsByClassName('imgMV')[parseInt(numero)].querySelector('img').src
 
 
                 document.getElementsByClassName('btnEsq')[0].addEventListener('click', clicarSetaTras)
                 document.getElementsByClassName('btnDir')[0].addEventListener('click', clicarSetaFrente)
             } else if (parseInt(numero) == 1) {
-                proximoSource = document.getElementsByClassName('imgMV')[parseInt(numero)].firstChild.firstChild.src
+                proximoSource = document.getElementsByClassName('imgMV')[parseInt(numero)].querySelector('img').src
 
 
 
                 document.getElementsByClassName('btnDir')[0].addEventListener('click', clicarSetaFrente)
 
             } else if (parseInt(numero) == 10) {
-                anteriorSource = document.getElementsByClassName('imgMV')[parseInt(numero) - 2].firstChild.firstChild.src
+                anteriorSource = document.getElementsByClassName('imgMV')[parseInt(numero) - 2].querySelector('img').src
 
                 document.getElementsByClassName('btnEsq')[0].addEventListener('click', clicarSetaTras)
             }
@@ -821,21 +912,21 @@ function atualizarSetas(numero, numeroMaximo) {
             //console.log(numero)
 
             if (parseInt(numero) > 1 && parseInt(numero) < numeroMaximo) {
-                anteriorSource = document.getElementsByClassName('img')[parseInt(numero) - 2].firstChild.src
-                proximoSource = document.getElementsByClassName('img')[parseInt(numero)].firstChild.src
+                anteriorSource = document.getElementsByClassName('img')[parseInt(numero) - 2].querySelector('img').src
+                proximoSource = document.getElementsByClassName('img')[parseInt(numero)].querySelector('img').src
 
 
                 document.getElementsByClassName('btnEsq')[0].addEventListener('click', clicarSetaTras)
                 document.getElementsByClassName('btnDir')[0].addEventListener('click', clicarSetaFrente)
 
             } else if (parseInt(numero) == 1) {
-                proximoSource = document.getElementsByClassName('img')[parseInt(numero)].firstChild.src
+                proximoSource = document.getElementsByClassName('img')[parseInt(numero)].querySelector('img').src
 
 
                 document.getElementsByClassName('btnDir')[0].addEventListener('click', clicarSetaFrente)
 
             } else if (parseInt(numero) == numeroMaximo) {
-                anteriorSource = document.getElementsByClassName('img')[parseInt(numero) - 2].firstChild.src
+                anteriorSource = document.getElementsByClassName('img')[parseInt(numero) - 2].querySelector('img').src
 
                 document.getElementsByClassName('btnEsq')[0].addEventListener('click', clicarSetaTras)
             }
@@ -971,21 +1062,12 @@ function opcoesFotosHandlers() {
 //************************************************************************** *//
 
 
-function mostrarCheck(click) {
-
-
-    if (click.srcElement.src) {
-        posicao = click.srcElement.parentNode.innerText[0]
-    } else if (click.srcElement.className != 'liUpload') {
-        posicao = click.srcElement.parentNode.innerText[0]
-    } else {
-        posicao = click.srcElement.innerText[0]
-    }
-
+function mostrarCheck(posicao) {
 
 
     document.getElementsByClassName('importCheck')[posicao].style.visibility = "visible";
-    document.getElementsByClassName('liUpload')[posicao].style.backgroundColor = "#404042e3";
+    document.getElementsByClassName('liUpload')[posicao].style.backgroundColor = "rgba(0, 128, 128, 0.2)";
+    document.getElementsByClassName('liUpload')[posicao].style.borderColor = "rgba(0, 128, 128, 0.4)";
 
     for (i = 0; i < 6; i++) {
         if (i != posicao) {
@@ -995,7 +1077,8 @@ function mostrarCheck(click) {
     }
 
     document.getElementsByClassName('previewImportFotos')[0].style.visibility = "visible";
-    document.getElementsByClassName('previewImportFotos')[0].style.visibility = "inherit";
+    document.getElementsByClassName('previewImportFotosGeral')[0].style.visibility = "visible";
+    document.getElementsByClassName('previewImportFotosGeral')[0].style.opacity = "1";
 
     document.getElementsByClassName('importErrado')[0].style.visibility = 'hidden'
 
@@ -1026,17 +1109,22 @@ function abrirUpload() {
     document.getElementsByClassName('FundoUpload')[0].style.visibility = "visible";
 
 
-    document.getElementsByClassName('liUpload')[0].addEventListener('click', mostrarCheck)
-    document.getElementsByClassName('liUpload')[1].addEventListener('click', mostrarCheck)
-    document.getElementsByClassName('liUpload')[2].addEventListener('click', mostrarCheck)
-    document.getElementsByClassName('liUpload')[3].addEventListener('click', mostrarCheck)
-    document.getElementsByClassName('liUpload')[4].addEventListener('click', mostrarCheck)
-    document.getElementsByClassName('liUpload')[5].addEventListener('click', mostrarCheck)
+    document.getElementsByClassName('liUpload')[0].onclick = function () { mostrarCheck(0) }
+    document.getElementsByClassName('liUpload')[1].onclick = function () { mostrarCheck(1) }
+    document.getElementsByClassName('liUpload')[2].onclick = function () { mostrarCheck(2) }
+    document.getElementsByClassName('liUpload')[3].onclick = function () { mostrarCheck(3) }
+    document.getElementsByClassName('liUpload')[4].onclick = function () { mostrarCheck(4) }
+    document.getElementsByClassName('liUpload')[5].onclick = function () { mostrarCheck(5) }
     //document.getElementsByClassName('liUpload')[0].addEventListener('click', esconderCheck)
 
-    document.getElementsByClassName('importImagens')[0].addEventListener('click', primeiroBtnUpload)
-    document.getElementsByClassName('selecionarTodas')[0].addEventListener('click', primeiroBtnUpload)
-    document.getElementsByClassName('desmarcarTodas')[0].addEventListener('click', primeiroBtnUpload)
+    document.getElementsByClassName('importImagens')[0].onclick = primeiroBtnUpload
+    document.getElementsByClassName('selecionarTodas')[0].onclick = primeiroBtnUpload
+    document.getElementsByClassName('desmarcarTodas')[0].onclick = primeiroBtnUpload
+
+    // UX: ao abrir, escolher uma fonte por defeito (se houver fotos para importar)
+    if (currentUser && Array.isArray(currentUser.fotografiasImportar) && currentUser.fotografiasImportar.length > 0) {
+        mostrarCheck(0)
+    }
 
 }
 
@@ -1058,6 +1146,7 @@ function EventHandler() {
 
     document.getElementsByClassName('btnUpload')[0].addEventListener('click', abrirUpload)
     document.getElementsByClassName('FundoUpload')[0].addEventListener('click', fecharUpload)
+    document.getElementsByClassName('fecharUpload')[0].addEventListener('click', fecharUpload)
 }
 
 //************************************************************************** *//
@@ -1215,15 +1304,36 @@ function apagarFotografiaDeFotografias() {
 function fotografiasParaUpload() {
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
+    // Limpar preview anterior (evita acumular elementos / estados estranhos)
+    const preview = document.getElementsByClassName('previewImportFotos')[0]
+    while (preview && preview.firstChild) preview.removeChild(preview.lastChild)
+
+    // Garantir compatibilidade com utilizadores antigos / estados vazios
+    if (!currentUser.fotografiasImportar || !Array.isArray(currentUser.fotografiasImportar)) {
+        currentUser.fotografiasImportar = []
+        localStorage.setItem(sessionStorage.CurrentUser, JSON.stringify(currentUser))
+    }
+
     possiveisFotografias = currentUser.fotografiasImportar
+
+    // Se nao houver fotos disponiveis, mostrar mensagem clara
+    if (!possiveisFotografias || possiveisFotografias.length === 0) {
+        document.getElementsByClassName('previewImportFotos')[0].style.visibility = "hidden";
+        document.getElementsByClassName('previewImportFotosGeral')[0].style.visibility = "visible";
+        document.getElementsByClassName('previewImportFotosGeral')[0].style.opacity = "1";
+        document.getElementsByClassName('importErrado')[0].style.visibility = 'hidden'
+        document.getElementsByClassName('importErrado2')[0].innerText = 'Não existem fotografias disponíveis para importar.'
+        document.getElementsByClassName('importErrado2')[0].style.visibility = 'visible'
+        return
+    } else {
+        document.getElementsByClassName('importErrado2')[0].style.visibility = 'hidden'
+    }
 
 
     for (i = 0; i < possiveisFotografias.length; i++) {
         novoLi = document.createElement('li')
         novoDiv = document.createElement('div')
         novoImg = document.createElement('img')
-
-        novoLi.innerText = i
 
         novoImg.src = possiveisFotografias[i].source
 
@@ -1238,28 +1348,19 @@ function fotografiasParaUpload() {
 }
 
 function selecionarFotografiasImportar(click) {
-    fotografia = click.srcElement
+    let li = click.target.closest('li')
+    if (!li) return
 
-    if (fotografia.src) {
-        fotografia = click.srcElement
-    } else {
-        fotografia = click.srcElement.firstChild
-    }
-
-    numFotografia = fotografia.parentNode.parentNode.innerText
+    let allLis = Array.from(li.parentNode.children)
+    let numFotografia = allLis.indexOf(li)
 
     if (listaFotografiasImportar.includes(numFotografia)) {
-        index = fotografia.parentNode.parentNode.innerText
-        listaFotografiasImportar.splice(index, 1)
-        fotografia.parentNode.style.border = 'none'
-        fotografia.style.opacity = '1'
+        listaFotografiasImportar = listaFotografiasImportar.filter(item => item !== numFotografia);
+        li.classList.remove('photo-selected')
     } else {
-        listaFotografiasImportar = listaFotografiasImportar.concat(numFotografia)
-        fotografia.parentNode.style.border = '4px solid teal'
-        fotografia.style.opacity = '0.8'
+        listaFotografiasImportar.push(numFotografia);
+        li.classList.add('photo-selected')
     }
-
-
 }
 
 function selecionarTodasFotografiasImportar() {
@@ -1267,30 +1368,27 @@ function selecionarTodasFotografiasImportar() {
 
     listaFotografiasImportar = []
 
-    for (i = 0; i < currentUser.fotografiasImportar.length; i++) {
-        listaFotografiasImportar = listaFotografiasImportar.concat(JSON.stringify(i))
+    let previewZona = document.getElementsByClassName('previewImportFotos')[0];
+    let items = previewZona.children;
 
-
-    }
-    // console.log(listaFotografiasImportar)
-
-    for (j = 1; j < document.getElementsByClassName('previewImportFotos')[0].childNodes.length; j++) {
-
-        document.getElementsByClassName('previewImportFotos')[0].childNodes[j].childNodes[1].style.border = '4px solid teal'
-        document.getElementsByClassName('previewImportFotos')[0].childNodes[j].childNodes[1].style.opacity = '0.8'
+    for (let i = 0; i < currentUser.fotografiasImportar.length; i++) {
+        listaFotografiasImportar.push(i);
+        
+        if (items[i]) {
+            items[i].classList.add('photo-selected')
+        }
     }
 }
 
 function desselecionarTodasFotografiasImportar() {
-    currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
-
     listaFotografiasImportar = []
 
-    for (j = 1; j < document.getElementsByClassName('previewImportFotos')[0].childNodes.length; j++) {
-        document.getElementsByClassName('previewImportFotos')[0].childNodes[j].childNodes[1].style.border = 'none'
-        document.getElementsByClassName('previewImportFotos')[0].childNodes[j].childNodes[1].style.opacity = '1'
-    }
+    let previewZona = document.getElementsByClassName('previewImportFotos')[0];
+    let items = previewZona.children;
 
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove('photo-selected')
+    }
 }
 
 
@@ -1304,7 +1402,7 @@ function adicionarFotografiasImportar() {
         proximaListaFotografiasImportar = []
 
         for (i = 0; i < possiveisFotografias.length; i++) {
-            if (listaFotografiasImportar.includes(JSON.stringify(i))) {
+            if (listaFotografiasImportar.includes(i)) {
                 currentUser.fotografias = currentUser.fotografias.concat(possiveisFotografias[i])
             } else {
                 proximaListaFotografiasImportar = proximaListaFotografiasImportar.concat(possiveisFotografias[i])

@@ -173,16 +173,17 @@ function mostrarAlbuns() {
 
 
 
-            if (listaAlbuns[i].capa == "None") {
+            if (listaAlbuns[i].capa == "None" || listaAlbuns[i].capa == "assets/img/defaultFolder.png") {
                 capaAlbum.src = "assets/img/defaultFolder.png"
+                capaAlbum.classList.add('default-capa')
             } else {
                 capaAlbum.src = listaAlbuns[i].capa
             }
 
             novoAlbum = document.createElement('li')
             novaDivImg.appendChild(capaAlbum)
+            novaDivImg.appendChild(novaDivTitulo) // Mover título para dentro da div album
             novoAlbum.appendChild(novaDivImg)
-            novoAlbum.appendChild(novaDivTitulo)
 
             document.getElementsByClassName('posicaoAlbum')[0].appendChild(novoAlbum)
 
@@ -215,25 +216,21 @@ function mostrarFotografias(album) {
 //************************************************************************** *//
 
 function entrarAlbum(click) {
-    //console.log(click.srcElement)
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-    if (click.srcElement.className != "posicaoAlbum" && click.srcElement.parentNode.className != "posicaoAlbum") {
+    let albumDiv = click.srcElement.closest('.album');
+    if (!albumDiv) return;
 
-        if (click.srcElement.src) {
-            parent = click.srcElement.parentNode.parentNode
-        } else {
-            parent = click.srcElement.parentNode
-        }
-        //console.log("parent",parent.childNodes[1].innerText)
+    let li = albumDiv.parentNode;
+    let nomeAlbum = albumDiv.querySelector('.albumTitle').innerText;
 
-        nomeAlbum = parent.childNodes[1].innerText
+    document.getElementsByClassName('zonaAlbum')[0].style.display = 'none'
 
-        parent.parentNode.style.visibility = 'hidden'
+    let tituloElem = document.getElementsByClassName('tituloMomento')[0];
+    tituloElem.innerText = "Álbum - " + nomeAlbum;
+    tituloElem.dataset.nomeReal = nomeAlbum; // Guarda o nome original sem transformação CSS
 
-        document.getElementsByClassName('tituloMomento')[0].innerText = "Álbum - " + nomeAlbum
-
-        for (i = 0; i < currentUser.albuns.length; i++) {
+    for (i = 0; i < currentUser.albuns.length; i++) {
 
 
             if (currentUser.albuns[i].nome == nomeAlbum) {
@@ -242,11 +239,12 @@ function entrarAlbum(click) {
 
         }
         numFotografias = albumSelecionado.fotografias.length
-        document.getElementsByClassName('subTituloMomento')[0].innerText = numFotografias + " fotografias \xa0\xa0\xa0\xa0\xa0•\xa0\xa0\xa0\xa0\xa0" + albumSelecionado.descricao
+        document.getElementsByClassName('subTituloMomento')[0].innerHTML = numFotografias + " fotografias \xa0\xa0\xa0\xa0\xa0•\xa0\xa0\xa0\xa0\xa0" + albumSelecionado.descricao
 
         aparecerFotografiasAlbum()
 
         document.getElementsByClassName('posicaoFotosAlbunsAbertosGeral')[0].style.zIndex = 5
+        document.getElementsByClassName('posicaoFotosAlbunsAbertosGeral')[0].style.display = 'block'
         document.getElementsByClassName('posicaoFotosAlbunsAbertosGeral')[0].style.visibility = 'visible'
 
         document.getElementsByClassName('btnExtraTopPag')[0].style.visibility = 'visible'
@@ -261,12 +259,9 @@ function entrarAlbum(click) {
 
         definirOpcoesOrganizar()
 
-        document.getElementsByClassName('ApagarAlbuns')[0].style.visibility = 'hidden'
-        document.getElementsByClassName('ApagarFotos')[0].style.visibility = 'visible'
-
-
-    }
-
+        document.getElementsByClassName('apagarAlbuns')[0].style.visibility = 'hidden'
+        document.getElementsByClassName('apagarFotos')[0].style.visibility = 'visible'
+        document.getElementsByClassName('apagarFotos')[0].style.display = 'flex'
 
 }
 
@@ -384,33 +379,49 @@ function definirOpcoesOrganizar() {
 
 function aparecerCriarAlbum() {
 
-
-
     document.getElementsByClassName('btnProximo')[0].addEventListener('click', avisoCriarAlbum)
 
+    document.getElementsByClassName('slide')[0].style.transition = '0.7s cubic-bezier(0.4, 0, 0.2, 1)'
 
-    document.getElementsByClassName('slide')[0].style.transition = 'all 1s'
+    // Garantir que os botões da página 1 estão visíveis e os da página 2 escondidos
+    const btnAnteriores = document.getElementsByClassName('btnAnterior');
+    const btnProximos = document.getElementsByClassName('btnProximo');
+
+    btnAnteriores[0].style.display = 'flex';
+    btnAnteriores[0].style.visibility = 'visible';
+    btnProximos[0].style.display = 'flex';
+    btnProximos[0].style.visibility = 'visible';
+
+    btnAnteriores[1].style.display = 'none';
+    btnAnteriores[1].style.visibility = 'hidden';
+    btnProximos[1].style.display = 'none';
+    btnProximos[1].style.visibility = 'hidden';
+
+    // Mostrar barra de progresso inicial
+    const progressBars = document.getElementsByClassName('barraProgresso');
+    for (let i = 0; i < progressBars.length; i++) {
+        progressBars[i].style.visibility = 'visible';
+    }
 
     document.getElementsByClassName('menuCriarAlbum')[0].style.visibility = 'visible'
     document.getElementsByClassName('fundoCriarAlbum')[0].style.visibility = 'visible'
 
-    //document.getElementById('btnCriarPasta').addEventListener('click', criarAlbum)
-
-
+    // Cruz de fecho integrada no card
+    const fecharBtnCard = document.querySelector('.menuCriarAlbum .fecharCriarAlbum')
+    if (fecharBtnCard) {
+        fecharBtnCard.onclick = (e) => {
+            e.stopPropagation()
+            fecharCriarAlbum()
+        }
+    }
 
     document.getElementById('checkData').addEventListener('click', verificaCheck)
     document.getElementById('checkLocal').addEventListener('click', verificaCheck)
     document.getElementById('checkPessoa').addEventListener('click', verificaCheck)
 
-
     document.getElementsByClassName('btnAnterior')[0].addEventListener('click', fecharCriarAlbum)
     document.getElementsByClassName('fundoCriarAlbum')[0].addEventListener('click', fecharCriarAlbum)
-
-    //document.getElementsByClassName('btnProximo')[0].addEventListener('click', slideProximoCriarAlbum)
-    // document.getElementsByClassName('btnProximo')[0].addEventListener('click', recolherPrimeirasInfo)
     document.getElementsByClassName('btnAnterior')[1].addEventListener('click', slideAnteriorCriarAlbum)
-
-
 
     document.getElementsByClassName('btnProximo')[1].addEventListener('click', recolherInfoAlbum)
 }
@@ -471,13 +482,18 @@ function slideProximoCriarAlbum() {
 
     document.getElementsByClassName('progDir')[0].style.backgroundColor = "#464649da"
 
-    document.getElementsByClassName('btnAnterior')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('btnProximo')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('btnAnterior')[1].style.visibility = 'visible'
-    document.getElementsByClassName('btnProximo')[1].style.visibility = 'visible'
-
-    document.getElementsByClassName('btnAnterior')[1].style.visibility = 'inherit'
-    document.getElementsByClassName('btnProximo')[1].style.visibility = 'inherit'
+    // Esconder botões da página 1
+    document.getElementsByClassName('btnAnterior')[0].style.display = 'none'
+    document.getElementsByClassName('btnProximo')[0].style.display = 'none'
+    
+    // Mostrar botões da página 2
+    document.getElementsByClassName('btnAnterior')[1].style.display = 'flex'
+    document.getElementsByClassName('btnProximo')[1].style.display = 'flex'
+    
+    setTimeout(() => {
+        document.getElementsByClassName('btnAnterior')[1].style.visibility = 'visible'
+        document.getElementsByClassName('btnProximo')[1].style.visibility = 'visible'
+    }, 50);
 
     document.getElementById('btnEscolherFoto').addEventListener('click', abrirEscolherCapa)
 
@@ -497,13 +513,17 @@ function slideAnteriorCriarAlbum() {
 
     document.getElementsByClassName('progDir')[0].style.backgroundColor = "#4646497c"
 
-    document.getElementsByClassName('btnAnterior')[0].style.visibility = 'visible'
-    document.getElementsByClassName('btnProximo')[0].style.visibility = 'visible'
+    // Esconder botões da página 2
+    document.getElementsByClassName('btnAnterior')[1].style.display = 'none'
+    document.getElementsByClassName('btnProximo')[1].style.display = 'none'
     document.getElementsByClassName('btnAnterior')[1].style.visibility = 'hidden'
     document.getElementsByClassName('btnProximo')[1].style.visibility = 'hidden'
 
-    document.getElementsByClassName('btnAnterior')[0].style.visibility = 'inherit'
-    document.getElementsByClassName('btnProximo')[0].style.visibility = 'inherit'
+    // Mostrar botões da página 1
+    document.getElementsByClassName('btnAnterior')[0].style.display = 'flex'
+    document.getElementsByClassName('btnProximo')[0].style.display = 'flex'
+    document.getElementsByClassName('btnAnterior')[0].style.visibility = 'visible'
+    document.getElementsByClassName('btnProximo')[0].style.visibility = 'visible'
 
     document.getElementById('btnEscolherFoto').removeEventListener('click', abrirEscolherCapa)
 
@@ -511,12 +531,42 @@ function slideAnteriorCriarAlbum() {
 }
 
 function fecharCriarAlbum() {
-    document.getElementsByClassName('slide')[0].style.transition = 'all 0s'
-
+    // Esconder tudo imediatamente
     document.getElementsByClassName('menuCriarAlbum')[0].style.visibility = 'hidden'
     document.getElementsByClassName('fundoCriarAlbum')[0].style.visibility = 'hidden'
     document.getElementsByClassName('avisoProximo')[0].style.visibility = 'hidden'
 
+    // Esconder dropdowns especificamente (para evitar que persistam devido ao comportamento de visibility: visible)
+    document.getElementById('inputData').style.visibility = 'hidden'
+    document.getElementById('inputLocal').style.visibility = 'hidden'
+    document.getElementById('inputPessoa').style.visibility = 'hidden'
+
+    // Uncheck as checkboxes para o próximo uso
+    document.getElementById('checkData').checked = false
+    document.getElementById('checkLocal').checked = false
+    document.getElementById('checkPessoa').checked = false
+
+    const btnAnteriores = document.getElementsByClassName('btnAnterior');
+    const btnProximos = document.getElementsByClassName('btnProximo');
+
+    // Esconder todos os botões para garantir que nada fica no ecrã
+    for (let i = 0; i < btnAnteriores.length; i++) {
+        btnAnteriores[i].style.visibility = 'hidden';
+        btnProximos[i].style.visibility = 'hidden';
+    }
+
+    // Resetar o slide para a primeira página sem animação
+    document.getElementsByClassName('slide')[0].style.transition = 'none'
+    document.getElementsByClassName('slide')[0].style.left = "0%"
+
+    // Resetar barra de progresso
+    const progressBars = document.getElementsByClassName('barraProgresso');
+    for (let i = 0; i < progressBars.length; i++) {
+        progressBars[i].style.visibility = 'hidden';
+    }
+
+    document.getElementsByClassName('progEsq')[0].style.backgroundColor = "#00d4d4"
+    document.getElementsByClassName('progDir')[0].style.backgroundColor = "rgba(255, 255, 255, 0.1)"
 }
 
 function avisoCriarAlbum() {
@@ -670,37 +720,24 @@ function recolherPrimeirasInfo() {
 function verificaCheck() {
 
     if (document.getElementById('checkData').checked) {
-
         document.getElementById('inputData').style.visibility = 'visible'
-        document.getElementById('inputData').style.visibility = 'inherit'
-
     } else {
         document.getElementById('inputData').style.visibility = 'hidden'
     }
 
     if (document.getElementById('checkLocal').checked) {
-
         document.getElementById('inputLocal').style.visibility = 'visible'
-        document.getElementById('inputLocal').style.visibility = 'inherit'
-
     } else {
         document.getElementById('inputLocal').style.visibility = 'hidden'
     }
 
     if (document.getElementById('checkPessoa').checked) {
-
         document.getElementById('inputPessoa').style.visibility = 'visible'
-        document.getElementById('inputPessoa').style.visibility = 'inherit'
-
-
     } else {
         document.getElementById('inputPessoa').style.visibility = 'hidden'
     }
 
-
-
     if (document.getElementById('checkData').checked || document.getElementById('checkLocal').checked || document.getElementById('checkPessoa').checked) {
-
         document.getElementsByClassName('btnProximo')[0].addEventListener('click', slideProximoCriarAlbum)
         document.getElementsByClassName('btnProximo')[0].addEventListener('click', recolherPrimeirasInfo)
         document.getElementsByClassName('btnProximo')[0].removeEventListener('click', avisoCriarAlbum)
@@ -802,71 +839,84 @@ function filtrarFotografias(data, local, pessoa) {
 function aparecerSelecionarAlbuns() {
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-    document.getElementsByClassName('popUpSelecionar')[0].style.visibility = 'visible'
-    document.getElementsByClassName('popUpSelecionarFundo')[0].style.visibility = 'visible'
+    const popUp = document.getElementsByClassName('popUpSelecionar')[0]
+    const fundo = document.getElementsByClassName('popUpSelecionarFundo')[0]
 
-    document.getElementsByClassName('btnPartilharSelecao')[0].addEventListener('click', partilharSelecionadas)
-    document.getElementsByClassName('btnLixoSelecao')[0].addEventListener('click', apagarSelecionadas)
-    document.getElementsByClassName('popUpSelecionarFundo')[0].addEventListener('click', fecharSelecionarAlbuns)
+    popUp.style.display = 'flex'
+    fundo.style.display = 'block'
+    popUp.style.visibility = 'visible'
+    fundo.style.visibility = 'visible'
 
+    // Evitar duplicar listeners a cada abertura
+    document.getElementsByClassName('btnPartilharSelecao')[0].onclick = partilharSelecionadas
+    document.getElementsByClassName('btnLixoSelecao')[0].onclick = apagarSelecionadas
+    fundo.onclick = fecharSelecionarAlbuns
 
-    if (aparecerSelecionar == 1) {
-        for (i = 0; i < currentUser.albuns.length; i++) {
-            novaLi = document.createElement('li')
-            novaDiv = document.createElement('div')
-            novaImg = document.createElement('img')
-            novoP = document.createElement('p')
+    const fecharBtn = popUp.querySelector('.fecharPopUpSelecionar')
+    if (fecharBtn) fecharBtn.onclick = fecharSelecionarAlbuns
 
-            novoP.innerText = currentUser.albuns[i].nome
-            novoP.setAttribute('class', 'pSelecionar')
+    // Comportamento igual ao "Selecionar Fotos": reconstruir sempre a lista para garantir consistência
+    listaSelecionadas = []
+
+    const zona = document.getElementsByClassName('zonaSelecao')[0]
+    if (!zona) return
+    while (zona.firstChild) zona.removeChild(zona.lastChild)
+
+    for (let i = 0; i < currentUser.albuns.length; i++) {
+        const novaLi = document.createElement('li')
+        const novaDiv = document.createElement('div')
+        const novaImg = document.createElement('img')
+        const novoP = document.createElement('p')
+
+        novaLi.dataset.albumName = currentUser.albuns[i].nome
+
+        novoP.innerText = currentUser.albuns[i].nome
+        novoP.setAttribute('class', 'pSelecionar')
+
+        if (currentUser.albuns[i].capa == "None" || currentUser.albuns[i].capa == "assets/img/defaultFolder.png") {
+            novaImg.src = "assets/img/defaultFolder.png"
+            novaImg.classList.add('default-capa')
+        } else {
             novaImg.src = currentUser.albuns[i].capa
-            novaDiv.setAttribute('class', 'imagemSelecionar')
-
-            novaDiv.appendChild(novaImg)
-            novaLi.appendChild(novaDiv)
-            novaLi.appendChild(novoP)
-
-            novaLi.addEventListener('click', selecionarAlbum)
-
-            document.getElementsByClassName('zonaSelecao')[0].appendChild(novaLi)
         }
 
-        aparecerSelecionar = 0
+        novaDiv.setAttribute('class', 'imagemSelecionar')
+        novaDiv.appendChild(novaImg)
+        novaDiv.appendChild(novoP)
+        novaLi.appendChild(novaDiv)
+
+        novaLi.addEventListener('click', selecionarAlbum)
+        zona.appendChild(novaLi)
     }
 
 }
 
 function fecharSelecionarAlbuns() {
-    document.getElementsByClassName('popUpSelecionar')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('popUpSelecionarFundo')[0].style.visibility = 'hidden'
+    const popUp = document.getElementsByClassName('popUpSelecionar')[0]
+    const fundo = document.getElementsByClassName('popUpSelecionarFundo')[0]
+
+    popUp.style.visibility = 'hidden'
+    fundo.style.visibility = 'hidden'
+    popUp.style.display = 'none'
+    fundo.style.display = 'none'
 
 }
 
 function selecionarAlbum(click) {
+    const li = (click.target || click.srcElement).closest('li')
+    if (!li) return
 
+    const albumName = li.dataset.albumName || (li.querySelector('.pSelecionar') ? li.querySelector('.pSelecionar').innerText : '')
+    if (!albumName) return
 
-
-    if (click.srcElement.className == 'imagemSelecionar') {
-        li = click.srcElement.parentNode
-    } else if (click.srcElement.className == 'pSelecionar') {
-        li = click.srcElement.parentNode
-    } else if (click.srcElement.src == null) {
-        li = click.srcElement
+    if (listaSelecionadas.includes(albumName)) {
+        const index = listaSelecionadas.indexOf(albumName)
+        if (index >= 0) listaSelecionadas.splice(index, 1)
+        li.classList.remove('photo-selected')
     } else {
-        li = click.srcElement.parentNode.parentNode
+        listaSelecionadas.push(albumName)
+        li.classList.add('photo-selected')
     }
-
-
-    if (listaSelecionadas.includes(li.childNodes[1].innerText)) {
-        index = listaSelecionadas.indexOf(li.childNodes[1].innerText)
-        listaSelecionadas.splice(index, 1)
-        li.style.border = 'none'
-    } else {
-        listaSelecionadas = listaSelecionadas.concat(li.childNodes[1].innerText)
-        li.style.border = '5px solid teal'
-    }
-
-
 }
 
 function partilharSelecionadas() {
@@ -900,74 +950,79 @@ function apagarSelecionadas() {
 /******************************************/
 
 function aparecerSelecionarFotos() {
-    document.getElementsByClassName('popUpSelecionarFotosFundo')[0].style.visibility = 'visible'
-    document.getElementsByClassName('popUpSelecionarFotos')[0].style.visibility = 'visible'
+    currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-    document.getElementsByClassName('popUpSelecionarFotosFundo')[0].addEventListener('click', desaparecerSelecionarFotos)
+    const fundo = document.getElementsByClassName('popUpSelecionarFotosFundo')[0]
+    const popUp = document.getElementsByClassName('popUpSelecionarFotos')[0]
 
-    document.getElementsByClassName('btnLixoSelecaoFotografias')[0].addEventListener('click', removerFotografiaAlbum)
+    popUp.style.display = 'flex'
+    fundo.style.display = 'block'
+    fundo.style.visibility = 'visible'
+    popUp.style.visibility = 'visible'
 
-    if (selecionadoFotos == 1) {
+    // Evitar duplicar listeners a cada abertura
+    fundo.onclick = desaparecerSelecionarFotos
+    const fecharBtn = popUp.querySelector('.fecharPopUpSelecionar')
+    if (fecharBtn) fecharBtn.onclick = desaparecerSelecionarFotos
 
-        nomeAlbum = document.getElementsByClassName('tituloMomento')[0].innerText
+    document.getElementsByClassName('btnLixoSelecaoFotografias')[0].onclick = removerFotografiaAlbum
 
-        nomeAlbum = nomeAlbum.slice(8)
+    const titulo = document.getElementsByClassName('tituloMomento')[0]
+    let nomeAlbum = (titulo && titulo.dataset && titulo.dataset.nomeReal) ? titulo.dataset.nomeReal : (titulo ? titulo.innerText : "")
+    nomeAlbum = (nomeAlbum || "").replace(/^Álbum\s*-\s*/i, "").trim()
 
-        indexAlbum = 0
+    const zona = document.getElementsByClassName('zonaSelecaoFotografias')[0]
+    if (!zona) return
 
-        for (i = 0; i < currentUser.albuns.length; i++) {
-            if (nomeAlbum == currentUser.albuns[i].nome) {
-                indexAlbum = i
+    // Reconstroi sempre a lista para garantir que mostra as fotos do album atual
+    while (zona.firstChild) zona.removeChild(zona.lastChild)
 
-            }
-        }
+    let indexAlbum = currentUser.albuns.findIndex(a => a.nome === nomeAlbum)
+    let album = indexAlbum >= 0 ? currentUser.albuns[indexAlbum] : (typeof albumSelecionado !== 'undefined' ? albumSelecionado : null)
+    if (!album || !album.fotografias) return
 
+    for (let i = 0; i < album.fotografias.length; i++) {
+        const novoLi = document.createElement('li')
+        const novoDiv = document.createElement('div')
+        const novoImg = document.createElement('img')
 
-        for (i = 0; i < currentUser.albuns[indexAlbum].fotografias.length; i++) {
+        novoImg.src = album.fotografias[i].source
 
+        novoDiv.setAttribute('class', 'imagemSelecionarFotografias')
+        novoLi.innerText = i
 
-            novoLi = document.createElement('li')
-            novoDiv = document.createElement('div')
-            novoImg = document.createElement('img')
+        novoDiv.appendChild(novoImg)
+        novoLi.appendChild(novoDiv)
 
-            novoImg.src = currentUser.albuns[indexAlbum].fotografias[i].source
-
-            novoDiv.setAttribute('class', 'imagemSelecionarFotografias')
-            novoLi.innerText = i
-
-            novoDiv.appendChild(novoImg)
-            novoLi.appendChild(novoDiv)
-
-
-            novoLi.addEventListener('click', selecionarFotografiaRemover)
-
-
-            document.getElementsByClassName('zonaSelecaoFotografias')[0].appendChild(novoLi)
-        }
-
-        selecionadoFotos = 0
+        novoLi.addEventListener('click', selecionarFotografiaRemover)
+        zona.appendChild(novoLi)
     }
+
+    selecionadoFotos = 0
 }
 
 function desaparecerSelecionarFotos() {
-    document.getElementsByClassName('popUpSelecionarFotosFundo')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('popUpSelecionarFotos')[0].style.visibility = 'hidden'
+    const fundo = document.getElementsByClassName('popUpSelecionarFotosFundo')[0]
+    const popUp = document.getElementsByClassName('popUpSelecionarFotos')[0]
+
+    fundo.style.visibility = 'hidden'
+    popUp.style.visibility = 'hidden'
+    fundo.style.display = 'none'
+    popUp.style.display = 'none'
 }
 
 function selecionarFotografiaRemover(click) {
-    console.log(click.srcElement)
+    let li = click.srcElement.closest('li');
+    let photoIndex = li.innerText;
 
-    if (!listaSelecionadasFotografias.includes(click.srcElement.parentNode.parentNode.innerText)) {
-        click.srcElement.parentNode.parentNode.style.border = '5px solid teal'
-
-        listaSelecionadasFotografias = listaSelecionadasFotografias.concat(click.srcElement.parentNode.parentNode.innerText)
+    if (!listaSelecionadasFotografias.includes(photoIndex)) {
+        li.classList.add('photo-selected');
+        listaSelecionadasFotografias.push(photoIndex);
     } else {
-        click.srcElement.parentNode.parentNode.style.border = 'none'
-        indexRemover = listaSelecionadasFotografias.indexOf(click.srcElement.parentNode.parentNode.innerText)
+        li.classList.remove('photo-selected');
+        let indexRemover = listaSelecionadasFotografias.indexOf(photoIndex)
         listaSelecionadasFotografias.splice(indexRemover, 1)
     }
-
-    console.log(listaSelecionadasFotografias)
 }
 
 function removerFotografiaAlbum() {
@@ -1021,52 +1076,69 @@ function removerFotografiaAlbum() {
 /******************************************/
 
 function aparecerMudarNomeAlbum() {
+    document.getElementsByClassName('popUpMudarNomeFundo')[0].style.display = 'block'
+    document.getElementsByClassName('popUpMudarNome')[0].style.display = 'flex'
+
     document.getElementsByClassName('popUpMudarNomeFundo')[0].style.visibility = 'visible'
-    document.getElementsByClassName('popUpMudarNomeFundo')[0].addEventListener('click', desaparecerMudarNomeAlbum)
-
-    document.getElementsByClassName('finalizarMudarNome')[0].addEventListener('click', mudarNomeAlbum)
-
     document.getElementsByClassName('popUpMudarNome')[0].style.visibility = 'visible'
-    document.getElementsByClassName('popUpMudarNomeFundo')[0].style.visibility = 'visible'
 }
 
 function desaparecerMudarNomeAlbum() {
     document.getElementsByClassName('popUpMudarNomeFundo')[0].style.visibility = 'hidden'
     document.getElementsByClassName('popUpMudarNome')[0].style.visibility = 'hidden'
 
+    document.getElementsByClassName('popUpMudarNomeFundo')[0].style.display = 'none'
+    document.getElementsByClassName('popUpMudarNome')[0].style.display = 'none'
+
     document.getElementById('inputMudarNome').value = ''
 }
 
 function mudarNomeAlbum() {
-    currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
+    let currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-    possivel = 'true'
+    let tituloElem = document.getElementsByClassName('tituloMomento')[0];
+    let nomeAtual = tituloElem.dataset.nomeReal; // Recupera o nome original do atributo data
+    let novoNome = document.getElementById('inputMudarNome').value.trim()
 
-    nomeAtual = document.getElementsByClassName('tituloMomento')[0].innerText.slice(8)
+    if (novoNome === "") {
+        alert("Por favor, insira um nome para o álbum.")
+        return
+    }
 
-    novoNome = document.getElementById('inputMudarNome').value
+    if (novoNome === nomeAtual) {
+        desaparecerMudarNomeAlbum()
+        return
+    }
 
-    for (i = 0; i < currentUser.albuns.length; i++) {
-        if (novoNome == currentUser.albuns[i].nome) {
-            alert('Nome já existente')
-            possivel = 'false'
+    let possivel = true
+    for (let i = 0; i < currentUser.albuns.length; i++) {
+        if (novoNome.toLowerCase() === currentUser.albuns[i].nome.toLowerCase() && novoNome.toLowerCase() !== nomeAtual.toLowerCase()) {
+            alert('Já existe um álbum com esse nome!')
+            possivel = false
+            break
         }
     }
 
-    if (possivel = 'true') {
-        for (j = 0; j < currentUser.albuns.length; j++) {
-            if (nomeAtual == currentUser.albuns[j].nome) {
+    if (possivel) {
+        let encontrado = false
+        for (let j = 0; j < currentUser.albuns.length; j++) {
+            if (nomeAtual === currentUser.albuns[j].nome) {
                 currentUser.albuns[j].nome = novoNome
+                encontrado = true
+                break
             }
         }
+
+        if (encontrado) {
+            localStorage.setItem(sessionStorage.CurrentUser, JSON.stringify(currentUser))
+            tituloElem.innerText = "Álbum - " + novoNome
+            tituloElem.dataset.nomeReal = novoNome; // Atualiza o atributo data com o novo nome
+            
+            desaparecerMudarNomeAlbum()
+        } else {
+            alert("Erro ao encontrar o álbum para renomear.")
+        }
     }
-
-
-    localStorage.setItem(sessionStorage.CurrentUser, JSON.stringify(currentUser))
-
-    document.getElementsByClassName('tituloMomento')[0].innerText = "Álbum - " + novoNome
-
-    desaparecerMudarNomeAlbum()
 }
 
 function organizarFotografias() {
@@ -1111,7 +1183,18 @@ function onload() {
     document.getElementsByClassName('criarNovoAlbum')[0].addEventListener('click', aparecerCriarAlbum)
     document.getElementsByClassName('apagarAlbuns')[0].addEventListener('click', aparecerSelecionarAlbuns)
     document.getElementsByClassName('apagarFotos')[0].addEventListener('click', aparecerSelecionarFotos)
+    document.getElementsByClassName('finalizarMudarNome')[0].addEventListener('click', mudarNomeAlbum)
 
+    // Por defeito, so mostrar "Selecionar Fotos" quando estamos dentro de um album
+    const btnSelecionarFotos = document.getElementsByClassName('apagarFotos')[0]
+    if (btnSelecionarFotos) {
+        btnSelecionarFotos.style.visibility = 'hidden'
+        btnSelecionarFotos.style.display = 'none'
+    }
+
+    // Listeners para fechar o pop up de mudar nome do álbum
+    document.getElementsByClassName('popUpMudarNomeFundo')[0].addEventListener('click', desaparecerMudarNomeAlbum)
+    document.getElementsByClassName('fecharPopUpMudarNome')[0].addEventListener('click', desaparecerMudarNomeAlbum)
 }
 
 function reloadPage() {

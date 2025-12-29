@@ -5,6 +5,24 @@
 
 // onload()
 
+//************************************************************************** *//
+// Guard de sessão (na página de login)
+// - Se já houver sessão iniciada, redireciona automaticamente para Albuns.html
+;(function sessionGuardLogin() {
+    try {
+        // Garantir valores por defeito (mantém compatibilidade com o resto do ficheiro)
+        if (sessionStorage.getItem('Logged') == null) sessionStorage.setItem('Logged', 'False')
+        if (sessionStorage.getItem('CurrentUser') == null) sessionStorage.setItem('CurrentUser', 'None')
+
+        const logged = sessionStorage.getItem('Logged') === 'True'
+        const currentUser = sessionStorage.getItem('CurrentUser')
+
+        if (logged && currentUser && currentUser !== 'None' && localStorage.getItem(currentUser)) {
+            window.location.replace('Albuns.html')
+        }
+    } catch (_) { }
+})()
+
 listaFotografias = []
 
 let fotografia1 = {

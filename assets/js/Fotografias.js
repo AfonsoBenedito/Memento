@@ -110,12 +110,22 @@ function mostrarFotografias(){
 function aparecerSelecionarFotografias(){
     currentUser = JSON.parse(localStorage.getItem(sessionStorage.CurrentUser))
 
-    document.getElementsByClassName('popUpSelecionar')[0].style.visibility = 'visible'
-    document.getElementsByClassName('popUpSelecionarFundo')[0].style.visibility = 'visible'
+    const popUp = document.getElementsByClassName('popUpSelecionar')[0]
+    const fundo = document.getElementsByClassName('popUpSelecionarFundo')[0]
 
-    document.getElementsByClassName('btnPartilharSelecao')[0].addEventListener('click',partilharSelecionadas)
-    document.getElementsByClassName('btnLixoSelecao')[0].addEventListener('click',apagarSelecionadas)
-    document.getElementsByClassName('popUpSelecionarFundo')[0].addEventListener('click', fecharSelecionarFotografias)
+    // Mostrar imediatamente (sem delays/animacoes acumuladas)
+    popUp.style.display = 'flex'
+    fundo.style.display = 'block'
+    popUp.style.visibility = 'visible'
+    fundo.style.visibility = 'visible'
+
+    // Evitar duplicar listeners a cada abertura
+    document.getElementsByClassName('btnPartilharSelecao')[0].onclick = partilharSelecionadas
+    document.getElementsByClassName('btnLixoSelecao')[0].onclick = apagarSelecionadas
+    fundo.onclick = fecharSelecionarFotografias
+
+    const fecharBtn = popUp.querySelector('.fecharPopUpSelecionar')
+    if (fecharBtn) fecharBtn.onclick = fecharSelecionarFotografias
 
     if (aparecerSelecionar == 1){
         for (i = 0; i < currentUser.fotografias.length; i++){
@@ -141,24 +151,30 @@ function aparecerSelecionarFotografias(){
 }
 
 function fecharSelecionarFotografias(){
-    document.getElementsByClassName('popUpSelecionar')[0].style.visibility = 'hidden'
-    document.getElementsByClassName('popUpSelecionarFundo')[0].style.visibility = 'hidden'
+    const popUp = document.getElementsByClassName('popUpSelecionar')[0]
+    const fundo = document.getElementsByClassName('popUpSelecionarFundo')[0]
+
+    // Esconder instantaneamente (sem ficar "a piscar" / com restos visuais)
+    popUp.style.visibility = 'hidden'
+    fundo.style.visibility = 'hidden'
+    popUp.style.display = 'none'
+    fundo.style.display = 'none'
 }
 
 function selecionarFotografia(click){
 
-    //console.log(click.srcElement.parentNode.parentNode.innerText)
+    const li = click.target.closest('li')
+    if (!li) return
 
-    numeroFotografia = click.srcElement.parentNode.parentNode.innerText
-
+    const numeroFotografia = li.innerText.trim()
 
     if (listaSelecionadas.includes(numeroFotografia)){
-        index = listaSelecionadas.indexOf(numeroFotografia)
+        const index = listaSelecionadas.indexOf(numeroFotografia)
         listaSelecionadas.splice(index, 1)
-        click.srcElement.parentNode.parentNode.style.border =  'none'
+        li.classList.remove('photo-selected')
     } else {
         listaSelecionadas = listaSelecionadas.concat(numeroFotografia)
-        click.srcElement.parentNode.parentNode.style.border =  '5px solid teal'
+        li.classList.add('photo-selected')
     }
 
     

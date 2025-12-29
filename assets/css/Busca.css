@@ -1,9 +1,16 @@
 .zonaFotosBusca {
-    background-color: red;
+    background-color: transparent;
     width: 90%;
     height: 70%;
     left: 5%;
     top: 30%;
     position: absolute;
     overflow-y: auto;
+}
+
+@media screen and (orientation: portrait) {
+    .zonaFotosBusca {
+        top: 19% !important;
+        height: 81% !important;
+    }
 }
