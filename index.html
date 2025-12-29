@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<head>
+    <title> Login </title>
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="assets/fonts/Fontes.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/Login.css">
+
+    <script type="text/javascript" src="assets/js/Login.js"></script>
+</head>
+
+<body>
+
+    <div class="titulo">MEMENTO
+
+        <img src="assets/img/logo.png">
+    </div>
+
+    <section>
+        <div class="wave"></div>
+    </section>
+
+    <img class="lua" src="assets/img/lua.png">
+
+    <img class="estrelas" src="assets/img/estrelas.png">
+
+    <div class="boxAuth">
+        <div class="authTabs">
+            <button class="tabBtn active" onclick="showLogin()">Login</button>
+            <button class="tabBtn" onclick="showRegister()">Registar</button>
+        </div>
+
+        <div id="loginForm">
+            <form onsubmit="return Login()" action="Albuns.html">
+                <br>
+                <h3>Nome de Utilizador:</h3>
+                <input type="text" placeholder="Nome de Utilizador" id="nomeULogin" required>
+                <h3>Password:</h3>
+                <input type="password" placeholder="Password" id="passwordLogin" required>
+                <button type="submit" id="btnLogin" value="Login">Login</button>
+            </form>
+        </div>
+
+        <div id="registerForm" style="display: none;">
+            <form onsubmit="return Registar()" action="Albuns.html">
+                <br>
+                <h3>Nome de Utilizador:</h3>
+                <input type="text" placeholder="Nome de Utilizador" id="nomeURegisto" required>
+                <h3>Email:</h3>
+                <input type="email" placeholder="Email" id="emailRegisto" required>
+                <h3>Password:</h3>
+                <input type="password" placeholder="Password" id="passwordFirstRegisto" required>
+                <h3>Confirmar Password:</h3>
+                <input type="password" placeholder="Confirmar Password" id="passwordSecondRegisto" required>
+                <button type="submit" id="btnRegistar">Registar</button>
+            </form>
+        </div>
+
+    </div>
+
+
+
+</body>

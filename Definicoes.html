@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/SiteBase.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/Definicoes.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/fonts/Fontes.css">
+
+    <script type="text/javascript" src="assets/js/SiteBase.js"></script>
+
+    <script type="text/javascript" src="assets/js/Definicoes.js"></script>
+
+    <title>Memento - Definições </title>
+
+</head>
+
+<body>
+
+    <div class="colunaOpcoes">
+
+        <div class="openClose"> Perfil
+            <img class="#" id="CloseImg" src="assets/img/close.png">
+        </div>
+
+        <img class="imagemUtilizador" src="assets/img/Cabeça Castanha.png">
+
+        <div class="nomeUtilizador">Nome do Utilizador</div>
+
+        <div class="separadorHorizontal"></div>
+
+        <div class="zonaBtns">
+
+            <a href="Albuns.html"><button class="btn">Álbuns</button></a>
+
+            <a href="Fotografias.html"><button class="btn">Fotografias</button></a>
+
+            <a href="Lixo.html"><button class="btn">Lixo</button></a>
+
+            <a href="Definicoes.html"><button class="btn atual">Definições</button></a>
+
+        </div>
+
+        <a href="index.html"><button class="btnLogout">Logout</button></a>
+
+    </div>
+
+    <!---------------------------->
+
+    <div class="colunaOpcoesReduzida">
+
+        <img class="open" id="OpenImg" src="assets/img/open.png">
+
+        <img class="imagemUtilizador" src="assets/img/Cabeça Castanha.png">
+
+        <div class="nomeUtilizador">Nome do Utilizador</div>
+
+
+        <div class="zonaBtnsMini">
+            <li><a href="Albuns.html">
+                    <img src="assets/img/albunsIcon.png">
+                    <div class="nomeBtn">Álbuns</div>
+                </a></li>
+            <li><a href="Fotografias.html">
+                    <img src="assets/img/fotosIcon.png">
+                    <div class="nomeBtn">Fotografias</div>
+                </a></li>
+            <li><a href="Lixo.html">
+                    <img src="assets/img/lixoIcon.png">
+                    <div class="nomeBtn">Lixo</div>
+                </a></li>
+            <li class="pagMomentoAtual"><a href="Definicoes.html">
+                    <img class="momento" src="assets/img/definicoesIcon.png">
+                    <div class="nomeBtn momento">Definições</div>
+                </a></li>
+
+            <li class="off"><a href="index.html">
+                    <img src="assets/img/offIcon.png">
+                    <div class="nomeBtn">Sair</div>
+                </a></li>
+        </div>
+
+    </div>
+
+    <!-------------------------------------------------------------->
+    <!-------------------------------------------------------------->
+
+    <div class="barraSuperiar">
+
+        <img class="icone" src="assets/img/logo.png">
+
+        <div class="paginaMomento">Memento</div>
+
+        <div class="separador"></div>
+
+        <div class="paginaAtual">Definições</div>
+
+        <div class='barraPesquisa'>
+
+            <input class="zonaPesquisa" type="text" placeholder="  Pesquise">
+
+            <div class="zonaPesquisaLupa">
+                <img src="assets/img/lupa.png">
+            </div>
+        </div>
+        <!--<input class='barraPesquisa' type="text" placeholder="Pesquise">-->
+
+        <button class="btnUpload">Importar Fotos</button>
+
+        <img class="btnSininho" src="assets/img/Sino.png">
+        <!-- <button class="btnSininho">S</button> -->
+
+    </div>
+
+    <!-------------------------------------------------------------->
+    <!-------------------------------------------------------------->
+
+    <div class="planoAcao">
+
+        <div class='FundoUpload'>
+            <img src="assets/img/fecharPopUp.png">
+        </div>
+
+        <div class='Upload'>
+            <div class="titleImport">Selecione a forma como deseja importar as fotografias</div>
+            <div class="separadorUpload"></div>
+            <div class="zonaIconsImport">
+                <li class="liUpload">0
+                    <img class="local" src="assets/img/computadorIcon.png">
+                    <div>Computador</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">1
+                    <img class="local" src="assets/img/whatsappIcon.png">
+                    <div>Whatsapp</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">2
+                    <img class="local" src="assets/img/emailIcon.png">
+                    <div>E-mail</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">3
+                    <img class="local" src="assets/img/InstagramIcon.png">
+                    <div>Instagram</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">4
+                    <img class="local" src="assets/img/twitterIcon.png">
+                    <div>Twitter</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+                <li class="liUpload">5
+                    <img class="local" src="assets/img/facebookIcon.png">
+                    <div>Facebook</div>
+                    <img class="importCheck" src="assets/img/importcheck.png">
+                </li>
+            </div>
+            <div class="previewImportFotosGeral">
+                <div class="previewImportFotos">
+
+                </div>
+            </div>
+
+            <div class="importErrado">É necessário selecionar uma fonte de importação <br>
+                (ex: Computador, Whatsapp, E-mail, etc...)</div>
+
+            <div class="importErrado2">Nenhuma fotografia Selecionada</div>
+
+            <button class="importImagens">Importar Fotografias</button>
+            <button class="selecionarTodas">Selecionar Todas</button>
+            <button class="desmarcarTodas">Desmarcar Todas</button>
+        </div>
+
+        <div class="boxMudarPass">
+            <form onsubmit="MudarPassword()" action="">
+                <h1>Mudar Password</h1>
+                <h3>Password Atual:</h3>
+                <input type="password" id="mudPassFirst" placeholder="Password atual">
+                <h3>Password Nova:</h3>
+                <input type="password" id="mudPassSecond" placeholder="Password nova">
+                <h3>Confirme Password Nova</h3>
+                <input type="password" id="mudPassThird" placeholder="Confirme Password nova">
+                <button type="submit" id="btnMudarPassword" value="MudarPass">Mudar Password</button>
+            </form>
+
+        </div>
+        <!-------------------------------------------------------------->
+        <div class="boxMudarEmail">
+            <form onsubmit="MudarEmail()">
+                <h1>Mudar Email</h1>
+                <h3>Novo Email:</h3>
+                <input type="email" id="mudEmailNovo" placeholder="Novo Email">
+                <h3>Password:</h3>
+                <input type="password" id="mudEmailPass" placeholder="Password">
+                <button type="submit" id="btnMudarEmail" value="MudarEmail">Mudar Email</button>
+            </form>
+        </div>
+        <!-------------------------------------------------------------->
+        <div class="boxMudarUtilizador">
+            <form onsubmit="MudarUtilizador()">
+                <h1>Mudar Nome de Utilizador</h1>
+                <h3>Novo Nome de Utilizador:</h3>
+                <input type="text" id="mudUtiNovo" placeholder="Novo Nome de Utilizador">
+                <h3>Password:</h3>
+                <input type="password" id="mudUtiPass" placeholder="Password">
+                <button type="submit" id="btnMudarUtilizador">Mudar Nome de Utilizador</button>
+            </form>
+
+        </div>
+
+        <!-------------------------------------------------------------->
+        <div class="boxMudarImagem">
+            <div class="boxTitlesEDescricao">
+                <h1>Mudar Imagem</h1>
+                <p>Altere aqui a sua imagem de perfil</p>
+                <buttonl id="btnAlterarPerfil">Alterar</button>
+            </div>
+            <div class="posiImagemPerfil_Def">
+                <div class="zonaPerfilImg">
+                    <img id="fotoPerfilDef" src="#">
+                </div>
+            </div>
+        </div>
+
+        <div class="fundoAlterarFotoPerfil">
+            <img src="assets/img/fecharPopUp.png">
+        </div>
+        <div class="alterarFotoPerfil">
+            <div class="titleFotoPerfil">Clique na imagem que deseja definir como fotografia de perfil</div>
+            <div class="separadorFotoPerfil">
+                <div class="fotosPredefinidas">Predefinidas</div>
+                <div class="fotosSuasFotos">Suas Fotografias</div>
+            </div>
+
+            <div class="fotosPredefinidasDrop">
+                <div class="zonaFotosPred">
+                </div>
+            </div>
+            <div class="fotosSuasFotosDrop">
+                <div class="zonaFotosSuas">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-------------------------------------------------------------->
+    <!-------------------------------------------------------------->
+
+
+</body>

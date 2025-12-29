@@ -1,0 +1,128 @@
+.posicaoFotografiasGeral {
+    visibility: visible;
+    position: absolute;
+    width: 100%;
+    top: 28%;
+    height: 70%;
+    left: 0px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 5;
+}
+
+.posicaoFotografias {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    height: 40px;
+    text-align: left;
+}
+
+.sepOrdenacao {
+    display: block;
+    position: relative;
+    width: 93.5%;
+    margin-left: 1%;
+    margin-bottom: 20px;
+    /*margin-right: 0%;*/
+    height: fit-content;
+    /*overflow: hidden;*/
+    cursor: pointer;
+    list-style: none;
+}
+
+.tituloOrdenacao {
+    font-size: 35px;
+    margin-left: -3.8%;
+}
+
+.sepTituloOrdenacao {
+    width: 103%;
+    height: 1px;
+    background-color: rgb(255, 255, 255, 0.4);
+    border-radius: 1px;
+    margin-bottom: 20px;
+    margin-left: -3.5%;
+}
+
+.fotosOrdenacao {
+    display: inline-block;
+    position: relative;
+    width: 18%;
+    margin-left: 1%;
+    margin-bottom: 30px;
+    height: 180px;
+    overflow: hidden;
+    background-color: rgba(0, 128, 128, 0.2);
+    color: rgba(255, 255, 255, 0);
+    box-shadow: 2px 2px 2px teal;
+    cursor: pointer;
+    list-style: none;
+}
+
+.img {
+    position: absolute;
+    width: 150%;
+    left: -25%;
+    height: 100%;
+    top: 0px;
+    text-align: center;
+    z-index: 15;
+}
+
+.img img {
+    position: relative;
+    height: 100%;
+    width: auto;
+    top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.img img:hover {
+    transform: scale(1.1)
+}
+
+
+.ordenarPorFotografia {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 30%;
+    height: 50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.397);
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    z-index: 22;
+}
+
+.ordenarPorFotografia div {
+    position: absolute;
+    height: 60%;
+    top: 23%;
+    width: 40%;
+    text-align: right;
+    left: 0%;
+}
+
+#ordenacaoFotografia {
+    position: absolute;
+    width: 35%;
+    float: right;
+    right: 15%;
+    height: 50%;
+    top: 25%;
+    border: 2px solid teal;
+    border-radius: 4px;
+    background-color: rgba(0, 128, 128, 0.5);
+    z-index: 15;
+    color: white;
+    font-family: diamante;
+}
+
+.ordenarPorFotografia:hover {
+    cursor: pointer;
+    background-color: rgba(58, 58, 59, 0.692);
+}

@@ -1,0 +1,9 @@
+.zonaFotosBusca {
+    background-color: red;
+    width: 90%;
+    height: 70%;
+    left: 5%;
+    top: 30%;
+    position: absolute;
+    overflow-y: auto;
+}

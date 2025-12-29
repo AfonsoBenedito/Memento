@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<head>
+
+    <meta charset="utf-8" />
+
+
+    <link href="assets/img/logo.png" rel="shortcut icon">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/SiteBase.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/Albuns.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/fonts/Fontes.css">
+
+    <script type="text/javascript" src="assets/js/SiteBase.js"></script>
+
+    <script type="text/javascript" src="assets/js/Albuns.js"></script>
+
+    <title>Memento - Álbuns</title>
+
+</head>
+
+<body>
+
+    <div class="colunaOpcoes">
+
+        <div class="openClose"> Perfil
+            <img class="#" id="CloseImg" src="assets/img/close.png">
+        </div>
+
+        <img class="imagemUtilizador" src="assets/img/Cabe%C3%A7a%20Castanha.png">
+
+        <div class="nomeUtilizador">Nome do Utilizador</div>
+
+        <div class="separadorHorizontal"></div>
+
+        <div class="zonaBtns">
+
+            <a href="Albuns.html"><button class="btn atual">Álbuns</button></a>
+
+            <a href="Fotografias.html"><button class="btn">Fotografias</button></a>
+
+            <a href="Lixo.html"><button class="btn">Lixo</button></a>
+
+            <a href="Definicoes.html"><button class="btn">Definições</button></a>
+
+        </div>
+
+        <a href="index.html"><button class="btnLogout">Logout</button></a>
+
+    </div>
+
+    <!---------------------------->
+
+    <div class="colunaOpcoesReduzida">
+
+        <img class="open" id="OpenImg" src="assets/img/open.png">
+
+        <img class="imagemUtilizador" src="assets/img/Cabe%C3%A7a%20Castanha.png">
+
+        <div class="nomeUtilizador">Nome do Utilizador</div>
+
+
+        <div class="zonaBtnsMini">
+            <li class="pagMomentoAtual"><a href="Albuns.html">
+                    <img class="momento" src="assets/img/albunsIcon.png">
+                    <div class="nomeBtn momento">Álbuns</div>
+            </li></a></li>
+            <li><a href="Fotografias.html">
+                    <img src="assets/img/fotosIcon.png">
+                    <div class="nomeBtn">Fotografias</div>
+                </a></li>
+            <li><a href="Lixo.html">
+                    <img src="assets/img/lixoIcon.png">
+                    <div class="nomeBtn">Lixo</div>
+                </a></li>
+            <li><a href="Definicoes.html">
+                    <img src="assets/img/definicoesIcon.png">
+                    <div class="nomeBtn">Definições</div>
+                </a></li>
+
+            <li class="off"><a href="index.html">
+                    <img src="assets/img/offIcon.png">
+                    <div class="nomeBtn">Sair</div>
+                </a></li>
+        </div>
+
+    </div>
+
+    <!-------------------------------------------------------------->
+    <!-------------------------------------------------------------->
+
+    <div class="barraSuperiar">
+
+        <img class="icone" src="assets/img/logo.png">
+
+        <div class="paginaMomento">Memento</div>
+
+        <div class="separador"></div>
+
+        <div class="paginaAtual">Álbuns</div>
+
+        <div class='barraPesquisa'>
+
+            <input class="zonaPesquisa" type="text" placeholder="  Pesquise">
+
+            <div class="zonaPesquisaLupa">
+                <img src="assets/img/lupa.png">
+            </div>
+        </div>
+        <!--<input class='barraPesquisa' type="text" placeholder="Pesquise">-->
+
+        <button class="btnUpload">Importar Fotos</button>
+
+        <img class="btnSininho" src="assets/img/Sino.png">
+        <!-- <button class="btnSininho">S</button> -->
+
+    </div>
+
+    <!-------------------------------------------------------------->
+    <!-------------------------------------------------------------->
+
+    <div class="planoAcao">
+
+        <div class="topoPagina">
+
+            <img class="fundoTopo" src="assets/img/fundoTopo1.jpg">
+
+            <div class="esq">
+
+                <div class="btnExtraTopPag">
+
+                    <div class="btnPopUpMudarNome">
+                        <div>Mudar Nome do Álbum</div>
+                    </div>
+
+                    <div class="reloadAlbum">
+
+                        <img src="assets/img/setaEsq.png">
+                        <div>Voltar para Albúns</div>
+
+                    </div>
+
+                    <div class="ordenarPorFotoAlbum">
+                        <div>Ordenar por</div>
+                        <select id="ordenacaoFotoAlbum" name="fname">
+                            <!--<option value="Data">Data</option>
+                                <option value="Localidade">Localidade</option>
+                                <option value="Pessoas">Pessoas</option>-->
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="tituloMomento">Álbuns</div>
+
+                <div class="subTituloMomento"><b id="numAlbuns">0</b> álbuns criados &nbsp;
+                    • &nbsp; <b id='numFotografias'>0</b> fotografias importadas</div>
+
+                <!--<div class="ordenarPorAlbuns">
+
+                        <label for="#">Organizar Por &nbsp;</label>
+                        <select name="#" id="#">
+                            <option value="Data">Data</option>
+                            <option value="Nome">Nome</option>
+                        </select>
+    
+                    </div>-->
+
+            </div>
+
+            <div class="dir">
+
+                <a href="maisVista.html">
+                    <div class="maisVisto">
+                        <img src="assets/img/maisVisto.png">
+                        <div class="textoBtns">Mais Vistas</div>
+                    </div>
+                </a>
+                <a href="maisVista.html">
+                    <div class="curtidas">
+                        <img src="assets/img/curtidas.png">
+                        <div class="textoBtns">Curtidas</div>
+                </a>
+            </div>
+            <div class="criarNovoAlbum">
+                <img src="assets/img/addAlbum.png">
+                <div class="textoBtns">Criar Álbum</div>
+            </div>
+
+            <div class="apagarAlbuns" id="apagarFotos">
+                <img src="assets/img/selecionarIcon.png">
+                <div class="textoBtns">Selecionar Albuns</div>
+            </div>
+            <div class="apagarFotos" id="apagarFotos">
+                <img src="assets/img/selecionarIcon.png">
+                <div class="textoBtns">Selecionar Fotos</div>
+            </div>
+
+        </div>
+
+
+        <div class="separadorTopoPag"></div>
+
+    </div>
+
+    <!-------------------------->
+
+    <div class='FundoUpload'>
+        <img src="assets/img/fecharPopUp.png">
+    </div>
+
+    <div class='Upload'>
+        <div class="titleImport">Selecione a forma como deseja importar as fotografias</div>
+        <div class="separadorUpload"></div>
+        <div class="zonaIconsImport">
+            <li class="liUpload">0
+                <img class="local" src="assets/img/computadorIcon.png">
+                <div>Computador</div>
+                <img class="importCheck" src="assets/img/importcheck.png">
+            </li>
+            <li class="liUpload">1
+                <img class="local" src="assets/img/whatsappIcon.png">
+                <div>Whatsapp</div>
+                <img class="importCheck" src="assets/img/importcheck.png">
+            </li>
+            <li class="liUpload">2
+                <img class="local" src="assets/img/emailIcon.png">
+                <div>E-mail</div>
+                <img class="importCheck" src="assets/img/importcheck.png">
+            </li>
+            <li class="liUpload">3
+                <img class="local" src="assets/img/InstagramIcon.png">
+                <div>Instagram</div>
+                <img class="importCheck" src="assets/img/importcheck.png">
+            </li>
+            <li class="liUpload">4
+                <img class="local" src="assets/img/twitterIcon.png">
+                <div>Twitter</div>
+                <img class="importCheck" src="assets/img/importcheck.png">
+            </li>
+            <li class="liUpload">5
+                <img class="local" src="assets/img/facebookIcon.png">
+                <div>Facebook</div>
+                <img class="importCheck" src="assets/img/importcheck.png">
+            </li>
+        </div>
+        <div class="previewImportFotosGeral">
+            <div class="previewImportFotos">
+            </div>
+        </div>
+
+        <div class="importErrado">É necessário selecionar uma fonte de importação <br>
+            (ex: Computador, Whatsapp, E-mail, etc...)</div>
+
+        <div class="importErrado2">Nenhuma fotografia Selecionada</div>
+
+        <button class="importImagens">Importar Fotografias</button>
+        <button class="selecionarTodas">Selecionar Todas</button>
+        <button class="desmarcarTodas">Desmarcar Todas</button>
+
+    </div>
+
+    <!-------------------------------------------------------------------->
+
+    <div class="popUpSelecionarFundo" id="popUpSelecionarFundo">
+        <img src="assets/img/fecharPopUp.png">
+    </div>
+
+    <div class="popUpSelecionar" id="popUpSelecionar">
+
+        <div class="titlePopUpSelecionar">Selecione os álbuns que pretende Partilhar/Eliminar </div>
+
+        <div class="contemZonaSelecao">
+
+            <div class="zonaSelecao" id="zonaSelecao">
+
+            </div>
+
+        </div>
+
+        <div class="zonaBtnsSelecionar">
+            <div class="btnPartilharSelecao">
+                <img src="assets/img/partilhaIcon.png">
+                <div class="textoBtns">Partilhar</div>
+            </div>
+            <div class="btnLixoSelecao">
+                <img src="assets/img/lixoIcon.png">
+                <div class="textoBtns">Eliminar</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-------------------------------------------------------------------->
+
+    <div class="popUpSelecionarFotosFundo" id="popUpSelecionarFundo">
+        <img src="assets/img/fecharPopUp.png">
+    </div>
+
+    <div class="popUpSelecionarFotos" id="popUpSelecionar">
+
+        <div class="titlePopUpSelecionarFotos">Selecione as Fotografias que pretende Partilhar/Eliminar </div>
+
+        <div class="contemZonaSelecaoFotografias">
+
+            <div class="zonaSelecaoFotografias">
+
+            </div>
+
+        </div>
+
+        <div class="zonaBtnsSelecionarFotografias">
+            <div class="btnPartilharSelecaoFotografias">
+                <img src="assets/img/partilhaIcon.png">
+                <div class="textoBtns">Partilhar</div>
+            </div>
+            <div class="btnLixoSelecaoFotografias">
+                <img src="assets/img/lixoIcon.png">
+                <div class="textoBtns">Remover do Álbum</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-------------------------->
+
+    <div class="zonaAlbum">
+        <div class="posicaoAlbum"></div>
+    </div>
+
+    <div></div>
+
+    <div class="popUpMudarNomeFundo">
+        <img src="assets/img/fecharPopUp.png">
+    </div>
+    <div class="popUpMudarNome">
+        <div class="titleMudarNome">Altere o nome do Álbum</div>
+        <input type='text' placeholder="Novo nome para o Álbum" id='inputMudarNome' maxlenght="20">
+        <div class="finalizarMudarNome">Mudar Nome</div>
+    </div>
+
+    <div class="posicaoFotosAlbunsAbertosGeral">
+
+        <div class="posicaoFotosAlbunsAbertos"></div>
+
+    </div>
+
+    <div class="fotoAbertaFundoClick">
+        <img src="assets/img/fecharPopUp.png">
+    </div>
+
+    <div class="fotoAberta">
+
+        <a class="btnDir"><img src="assets/img/setaDir.png"></a>
+        <a class="btnEsq"><img src="assets/img/setaEsq.png"></a>
+
+        <div class="zonaFotoAberta"><img id="fotografiaAberta" src=""></div>
+        <div class="zonaPreviewFotos">
+            <li id="partilharIcon">
+                <a><img src="assets/img/partilhaIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Partilha</div>
+            </li>
+            <li id="editarIcon">
+                <a><img src="assets/img/editarIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Editar</div>
+            </li>
+            <li id="curtidasIcon">
+                <a><img id="curtidasOnOff" src="assets/img/curtidasOff.png"></a>
+                <div class="fotoAbertaOpcoes">Favoritos</div>
+            </li>
+            <li id="lixoIcon">
+                <a><img src="assets/img/lixoIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Remover do Álbum</div>
+            </li>
+            <li id="detalhesIcon">
+                <a><img src="assets/img/detalhesIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Detalhes</div>
+            </li>
+        </div>
+
+        <div class="partilhaPopUp">
+            <li class="redeSocial">0
+                <a><img src="assets/img/whatsappIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Whatsapp</div>
+            </li>
+            <li class="redeSocial">1
+                <a><img src="assets/img/facebookIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Facebook</div>
+            </li>
+            <li class="redeSocial">2
+                <a><img src="assets/img/InstagramIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Instagram</div>
+            </li>
+            <li class="redeSocial">3
+                <a><img src="assets/img/twitterIcon.png"></a>
+                <div class="fotoAbertaOpcoes">Twitter</div>
+            </li>
+            <li class="redeSocial">4
+                <a><img src="assets/img/emailIcon.png"></a>
+                <div class="fotoAbertaOpcoes">E-mail</div>
+            </li>
+        </div>
+
+        <div class="detalhesPopUp">
+            <li>
+                <div class="linhaDetalhe"><b>Data - &nbsp;</b>
+                    <p class="detalheData"></p>
+                </div>
+            </li>
+            <li>
+                <div class="linhaDetalhe"><b>Localização - &nbsp;</b>
+                    <p class="detalheLocal"></p>
+                </div>
+            </li>
+            <li>
+                <div class="linhaDetalhe"><b>Pessoas - &nbsp;</b>
+                    <p class="detalhePessoa"></p>
+                </div>
+            </li>
+            <li>
+                <div class="linhaDetalhe"><b>Visualizações - &nbsp;</b>
+                    <p class="detalheVisualizacao"></p>
+                </div>
+            </li>
+        </div>
+
+        <div class="partilhaFotosRedes">
+            <img class="fundoIconPartilha" src="#">
+            <div class="partilhaCheckTitle">Fotografia Partilhada com Sucesso!</div>
+            <img class="checkPartilha" src="assets/img/partilhaCheck.png">
+            <div class="partilhaCheckSubtitle">Via <b class="redeParaPartilha">Instagram</b> </div>
+        </div>
+
+    </div>
+
+    <!------------------------------------------->
+    <!------------------------------------------->
+
+    <!--<div class="criarAlbumPopUp">
+                <input type="text" placeholder="Nome do Álbum" id="nomeNovoAlbum">
+                <button type="button" id="btnCriarPasta"> Criar Álbum</button>
+            </div>-->
+
+    <div class="fundoCriarAlbum">
+        <img src="assets/img/fecharPopUp.png">
+    </div>
+
+    <!------------- 1ª Divisão -------------->
+
+    <div class="zonaSelecaoFotosFundo">
+        <img src="assets/img/fecharPopUp.png">
+    </div>
+
+    <div class="menuCriarAlbum">
+
+        <div class="zonaSelecaoFotosFundo1"></div>
+
+        <div class="slide">
+
+            <div class="slideEsq">
+
+                <div class="tituloCriarAlbum">Criar Álbum - Seleção</div>
+
+                <div class="fraseCriarAlbum">Selecione fotografias consoante:</div>
+
+                <div class="avisoProximo">Atenção! Para avançar é necessário selecionar, pelo menos, uma opção.
+                </div>
+
+                <div class="zonaEscolha">
+
+                    <div class="rodaIcons"><img src="assets/img/criarAlbumRoda.png"></div>
+
+
+                    <form>
+
+
+                        <!--<input class="inputData" type="text" name="fname" placeholder="xx/xx/xxxx" id="inputData">-->
+                        <select id="inputData" name="fname">
+                        </select>
+
+                        <!--<input class="inputLocal" type="text" name="fname" placeholder="ex: Lisboa" id="inputLocal">-->
+                        <select id="inputLocal" name="fname">
+                        </select>
+
+                        <!--<input class="inputPessoa" type="text" name="fname" placeholder="ex: Migalhas" id="inputPessoa">-->
+                        <select id="inputPessoa" name="fname">
+                        </select>
+
+                        <br>
+
+                        <label class="checkboxAlbum">Data
+                            <input type="checkbox" id="checkData">
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="checkboxAlbum">Localidade
+                            <input type="checkbox" id="checkLocal">
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="checkboxAlbum">Pessoas
+                            <input type="checkbox" id="checkPessoa">
+                            <span class="checkmark"></span>
+                        </label>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!------------- 2ª Divisão -------------->
+
+            <div class="slideDir">
+
+                <div class="tituloCriarAlbum">Criar Álbum - Definições</div>
+
+                <div class="fraseCriarAlbum">Defina as características do seu álbum:</div>
+
+                <div class="zonaEscolha">
+
+                    <div class="capaAlbum">
+                        <div class="zonaCapaAlbum"><img id="imgCapaEscolhida" src="assets/img/capaAlbumDef.png">
+                        </div>
+                    </div>
+
+                    <button id="btnEscolherFoto" class="escolherFoto">Alterar Fotografia</button>
+
+                    <div class="nomeAlbum"><input id="inputNome" type="text" placeholder="Nome" maxlength="20">
+                    </div>
+
+                    <div class="descricaoAlbum"><input id="inputDescricao" type="textarea" placeholder="Descrição"
+                            maxlength="33"></div>
+
+                </div>
+
+                <div class="zonaSelecaoFotos">
+
+                    <div class="zonaDasFotosTotal">
+
+                        <div class="defaultSemFotos">Este albúm não contém fotografias</div>
+
+                        <div class="zonaDasFotos">
+
+                        </div>
+                    </div>
+
+                    <div class="textoFotoCapa">Clique para selecionar a foto de capa</div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <!------------- 1º Botões -------------->
+
+        <button class="btnAnterior">Fechar</button>
+
+        <div class="barraProgresso"></div>
+
+        <button type="submit" class="btnProximo">Próximo</button>
+
+        <!------------- 2º Botões -------------->
+
+        <button id="bt2" class="btnAnterior">Anterior</button>
+
+        <div class="barraProgresso">
+            <div class="progEsq"></div>
+            <div class="progDir"></div>
+        </div>
+
+        <button type="submit" id="bt2" class="btnProximo">Concluir</button>
+
+    </div>
+
+
+
+    </div>
+
+</body>

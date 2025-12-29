@@ -1,0 +1,413 @@
+<DOCTYPE html>
+
+    <head>
+
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" type="text/css" href="assets/css/SiteBase.css">
+
+        <link rel="stylesheet" type="text/css" href="assets/css/maisVista.css">
+
+        <link rel="stylesheet" type="text/css" href="assets/fonts/Fontes.css">
+
+        <script type="text/javascript" src="assets/js/MaisVistas.js"></script>
+
+        <script type="text/javascript" src="assets/js/SiteBase.js"></script>
+
+        <title>Fotografia Mais Vista</title>
+
+    </head>
+
+    <body>
+
+        <div class="colunaOpcoes">
+
+            <div class="openClose"> Perfil
+                <img class="#" id="CloseImg" src="assets/img/close.png">
+            </div>
+
+            <img class="imagemUtilizador" src="assets/img/Cabeça Castanha.png">
+
+            <div class="nomeUtilizador">Nome do Utilizador</div>
+
+            <div class="separadorHorizontal"></div>
+
+            <div class="zonaBtns">
+
+                <a href="Albuns.html"><button class="btn">Álbuns</button></a>
+
+                <a href="Fotografias.html"><button class="btn">Fotografias</button></a>
+
+                <a href="Lixo.html"><button class="btn">Lixo</button></a>
+
+                <a href="Definicoes.html"><button class="btn">Definições</button></a>
+
+            </div>
+
+            <a href="index.html"><button class="btnLogout">Logout</button></a>
+
+        </div>
+
+        <!---------------------------->
+
+        <div class="colunaOpcoesReduzida">
+
+            <img class="open" id="OpenImg" src="assets/img/open.png">
+
+            <img class="imagemUtilizador" src="assets/img/Cabeça Castanha.png">
+
+            <div class="nomeUtilizador">Nome do Utilizador</div>
+
+
+            <div class="zonaBtnsMini">
+                <li><a href="Albuns.html">
+                        <img src="assets/img/albunsIcon.png">
+                        <div class="nomeBtn">Álbuns</div>
+                    </a></li>
+                <li><a href="Fotografias.html">
+                        <img src="assets/img/fotosIcon.png">
+                        <div class="nomeBtn">Fotografias</div>
+                    </a></li>
+                <li><a href="Lixo.html">
+                        <img src="assets/img/lixoIcon.png">
+                        <div class="nomeBtn">Lixo</div>
+                    </a></li>
+                <li><a href="Definicoes.html">
+                        <img src="assets/img/definicoesIcon.png">
+                        <div class="nomeBtn">Definições</div>
+                    </a></li>
+
+                <li class="off"><a href="index.html">
+                        <img src="assets/img/offIcon.png">
+                        <div class="nomeBtn">Sair</div>
+                    </a></li>
+            </div>
+
+        </div>
+
+        <!-------------------------------------------------------------->
+        <!-------------------------------------------------------------->
+
+        <div class="barraSuperiar">
+
+            <img class="icone" src="assets/img/logo.png">
+
+            <div class="paginaMomento">Memento</div>
+
+            <div class="separador"></div>
+
+            <div class="paginaAtual">Mais Vista</div>
+
+            <div class='barraPesquisa'>
+
+                <input class="zonaPesquisa" type="text" placeholder="  Pesquise">
+
+                <div class="zonaPesquisaLupa">
+                    <img src="assets/img/lupa.png">
+                </div>
+            </div>
+            <!--<input class='barraPesquisa' type="text" placeholder="Pesquise">-->
+
+            <button class="btnUpload">Importar Fotos</button>
+
+            <img class="btnSininho" src="assets/img/Sino.png">
+            <!-- <button class="btnSininho">S</button> -->
+
+        </div>
+
+        <!-------------------------------------------------------------->
+        <!-------------------------------------------------------------->
+
+        <!--
+            <img class="fotoMais" src="assets/img/background2.png">
+            <img class="fotoMaisVistaMini" src="assets/img/background2.png">
+            <img class="fotoMaisVista2" src="assets/img/Carta Rosa.png">
+            <img class="fotoMaisVista3" src="assets/img/Carta Verde.png">
+            <img class="fotoMaisVista4" src="assets/img/Carta Vermelha.png">
+            <img class="fotoMaisVista5" src="assets/img/Carta Castanha.png">
+
+        <div>
+            <img class="setaTras" src="assets/img/setaTras.png">
+            <img class="setaFrente" src="assets/img/setaTras.png">
+        </div>
+    -->
+
+        <div class="planoAcao">
+
+
+
+            <div class="topoPagina">
+
+                <img class="fundoTopo" src="assets/img/fundoTopo1.jpg">
+
+                <div class="esq">
+
+                    <div class="tituloMomento">Mais Vistas</div>
+
+                    <div class="subTituloMomento">Veja aqui as suas fotografias mais visualizadas</div>
+
+                </div>
+
+                <div class="dir">
+
+                    <div class="maisVisto">
+                        <img src="assets/img/maisVisto.png">
+                        <div class="textoBtns">Mais Vistas</div>
+                    </div>
+                    <div class="curtidas">
+                        <img src="assets/img/curtidas.png">
+                        <div class="textoBtns">Curtidas</div>
+                    </div>
+                    <a href="Albuns.html">
+                        <div class="criarNovoAlbum">
+                            <img src="assets/img/irPAlbuns.png">
+                            <div class="textoBtns">Ir para Álbuns</div>
+                        </div>
+                    </a>
+
+                </div>
+
+
+                <div class="separadorTopoPag"></div>
+
+            </div>
+
+
+            <!------------------------------>
+
+            <div class='FundoUpload'>
+                <img src="assets/img/fecharPopUp.png">
+            </div>
+
+            <div class='Upload'>
+                <div class="titleImport">Selecione a forma como deseja importar as fotografias</div>
+                <div class="separadorUpload"></div>
+                <div class="zonaIconsImport">
+                    <li class="liUpload">0
+                        <img class="local" src="assets/img/computadorIcon.png">
+                        <div>Computador</div>
+                        <img class="importCheck" src="assets/img/importcheck.png">
+                    </li>
+                    <li class="liUpload">1
+                        <img class="local" src="assets/img/whatsappIcon.png">
+                        <div>Whatsapp</div>
+                        <img class="importCheck" src="assets/img/importcheck.png">
+                    </li>
+                    <li class="liUpload">2
+                        <img class="local" src="assets/img/emailIcon.png">
+                        <div>E-mail</div>
+                        <img class="importCheck" src="assets/img/importcheck.png">
+                    </li>
+                    <li class="liUpload">3
+                        <img class="local" src="assets/img/InstagramIcon.png">
+                        <div>Instagram</div>
+                        <img class="importCheck" src="assets/img/importcheck.png">
+                    </li>
+                    <li class="liUpload">4
+                        <img class="local" src="assets/img/twitterIcon.png">
+                        <div>Twitter</div>
+                        <img class="importCheck" src="assets/img/importcheck.png">
+                    </li>
+                    <li class="liUpload">5
+                        <img class="local" src="assets/img/facebookIcon.png">
+                        <div>Facebook</div>
+                        <img class="importCheck" src="assets/img/importcheck.png">
+                    </li>
+                </div>
+                <div class="previewImportFotosGeral">
+                    <div class="previewImportFotos">
+
+                    </div>
+                </div>
+
+                <div class="importErrado">É necessário selecionar uma fonte de importação <br>
+                    (ex: Computador, Whatsapp, E-mail, etc...)</div>
+
+                <div class="importErrado2">Nenhuma fotografia Selecionada</div>
+
+                <button class="importImagens">Importar Fotografias</button>
+                <button class="selecionarTodas">Selecionar Todas</button>
+                <button class="desmarcarTodas">Desmarcar Todas</button>
+            </div>
+
+
+            <div class="maisVistaPag">
+
+                <div class="top10">Top 10 fotografias mais visualizadas</div>
+
+                <div id="colecao" class="colecao">
+
+                    <li>1mv<div class="number"> <img src="assets/img/numeros/num1.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/fotosExemplo/fotoExemplo1.jpg"></div>
+                        </div>
+                    </li>
+
+                    <li>2mv<div class="number"> <img src="assets/img/numeros/num2.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/fotosExemplo/fotoExemplo9.jpg"></div>
+                        </div>
+                    </li>
+
+                    <li>3mv<div class="number"> <img src="assets/img/numeros/num3.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/fotosExemplo/fotoExemplo3.jpg"></div>
+                        </div>
+                    </li>
+
+                    <li>4mv<div class="number"> <img src="assets/img/numeros/num4.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/fotosExemplo/fotoExemplo4.jpg"></div>
+                        </div>
+                    </li>
+
+                    <li>5mv<div class="number"> <img src="assets/img/numeros/num5.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/fotosExemplo/fotoExemplo5.jpg"></div>
+                        </div>
+                    </li>
+
+                    <li>6mv<div class="number"> <img src="assets/img/numeros/num6.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/fotosExemplo/fotoExemplo6.jpg"></div>
+                        </div>
+                    </li>
+
+                    <li>7mv<div class="number"> <img src="assets/img/numeros/num7.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/fotosExemplo/fotoExemplo7.jpg"></div>
+                        </div>
+                    </li>
+
+                    <li>8mv<div class="number"> <img src="assets/img/numeros/num8.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/telles.jpeg"></div>
+                        </div>
+                    </li>
+
+                    <li>9mv<div class="number"> <img src="assets/img/numeros/num9.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/tomas.jpeg"></div>
+                        </div>
+                    </li>
+
+                    <li>10mv<div class="number"> <img src="assets/img/numeros/num10.png"> </div>
+                        <div class="imgMV">
+                            <div class="imgCentrar"><img src="assets/img/albuns/amadora/amadora1.jpg"></div>
+                        </div>
+                    </li>
+
+                </div>
+
+                <div class="btnTopDir"><a><img src="assets/img/setaDir.png"></a></div>
+                <div class="btnTopEsq"><a><img src="assets/img/setaEsq.png"></a></div>
+
+                <div class="outrasFotos">Fotografias Curtidas</div>
+
+                <div class="posicaoFotosCurtidas"></div>
+
+            </div>
+            <!-- <script>
+            function direita(){
+                document.getElementById('colecao').style.left="-85%";
+            }
+
+            function esquerda(){
+                document.getElementById('colecao').style.left="2%";
+            }
+        </script> -->
+
+            <div class="fotoAbertaFundoClick">
+                <img src="assets/img/fecharPopUp.png">
+            </div>
+
+            <div class="fotoAberta">
+
+                <a class="btnDir"><img src="assets/img/setaDir.png"></a>
+                <a class="btnEsq"><img src="assets/img/setaEsq.png"></a>
+
+                <div class="zonaFotoAberta"><img id="fotografiaAberta" src=""></div>
+                <div class="zonaPreviewFotos">
+                    <li id="partilharIcon">
+                        <a><img src="assets/img/partilhaIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Partilha</div>
+                    </li>
+                    <li id="editarIcon">
+                        <a><img src="assets/img/editarIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Editar</div>
+                    </li>
+                    <li id="curtidasIcon">
+                        <a><img id="curtidasOnOff" src="assets/img/curtidasOff.png"></a>
+                        <div class="fotoAbertaOpcoes">Favoritos</div>
+                    </li>
+                    <li id="lixoIcon">
+                        <a><img src="assets/img/lixoIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Lixo</div>
+                    </li>
+                    <li id="detalhesIcon">
+                        <a><img src="assets/img/detalhesIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Detalhes</div>
+                    </li>
+                </div>
+
+                <div class="partilhaPopUp">
+                    <li class="redeSocial">0
+                        <a><img src="assets/img/whatsappIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Whatsapp</div>
+                    </li>
+                    <li class="redeSocial">1
+                        <a><img src="assets/img/facebookIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Facebook</div>
+                    </li>
+                    <li class="redeSocial">2
+                        <a><img src="assets/img/InstagramIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Instagram</div>
+                    </li>
+                    <li class="redeSocial">3
+                        <a><img src="assets/img/twitterIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">Twitter</div>
+                    </li>
+                    <li class="redeSocial">4
+                        <a><img src="assets/img/emailIcon.png"></a>
+                        <div class="fotoAbertaOpcoes">E-mail</div>
+                    </li>
+                </div>
+
+                <div class="detalhesPopUp">
+                    <li>
+                        <div class="linhaDetalhe"><b>Data - &nbsp;</b>
+                            <p class="detalheData"></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="linhaDetalhe"><b>Localização - &nbsp;</b>
+                            <p class="detalheLocal"></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="linhaDetalhe"><b>Pessoas - &nbsp;</b>
+                            <p class="detalhePessoa"></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="linhaDetalhe"><b>Visualizações - &nbsp;</b>
+                            <p class="detalheVisualizacao"></p>
+                        </div>
+                    </li>
+                </div>
+
+                <div class="partilhaFotosRedes">
+                    <img class="fundoIconPartilha" src="#">
+                    <div class="partilhaCheckTitle">Fotografia Partilhada com Sucesso!</div>
+                    <img class="checkPartilha" src="assets/img/partilhaCheck.png">
+                    <div class="partilhaCheckSubtitle">Via <b class="redeParaPartilha">Instagram</b> </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        </div>
+
+    </body>
